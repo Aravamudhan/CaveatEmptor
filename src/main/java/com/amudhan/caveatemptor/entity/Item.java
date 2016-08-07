@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Item {
 	private long id;
 	private String name;
@@ -13,7 +16,9 @@ public class Item {
 	private Set<Image> images;
 	private Set<Bid> bids;
 	private User seller;
-	private Category category;
+	private Set<Category> categories;
+	private String description;
+	
 	public String getName() {
 		return name;
 	}
@@ -26,10 +31,10 @@ public class Item {
 	public void setInitialPrice(BigDecimal initialPrice) {
 		this.initialPrice = initialPrice;
 	}
-	public Date getAutionEnd() {
+	public Date getAuctionEnd() {
 		return auctionEnd;
 	}
-	public void setAutionEnd(Date auctionEnd) {
+	public void setAuctionEnd(Date auctionEnd) {
 		this.auctionEnd = auctionEnd;
 	}
 	public Date getAuctionStart() {
@@ -56,13 +61,24 @@ public class Item {
 	public void setSeller(User seller) {
 		this.seller = seller;
 	}
-	public Category getCategory() {
-		return category;
+	private Set<Category> getCategories() {
+		return categories;
 	}
-	public void setCategoryId(Category category) {
-		this.category = category;
+	private void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public long getId() {
 		return id;
 	}
+	@SuppressWarnings("unused")
+	private void setId(long id) {
+		this.id = id;
+	}
+	
 }

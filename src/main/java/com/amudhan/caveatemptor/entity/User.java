@@ -3,6 +3,9 @@ package com.amudhan.caveatemptor.entity;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Entity;
+
+@Entity
 public class User {
 	private long id;
 	private String firstName;
@@ -50,6 +53,10 @@ public class User {
 	}
 	public long getId() {
 		return id;
+	}
+	@SuppressWarnings("unused")
+	private void setId(long id) {
+		this.id = id;
 	}
 
 }

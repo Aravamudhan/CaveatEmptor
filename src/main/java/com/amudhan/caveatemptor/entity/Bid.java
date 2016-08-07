@@ -9,6 +9,7 @@ public class Bid {
 	private Date createdOn;
 	private Item item;
 	private User bidder;
+	private User seller;
 	public BigDecimal getAmount() {
 		return amount;
 	}
@@ -34,7 +35,17 @@ public class Bid {
 	public void setBidder(User bidder) {
 		this.bidder = bidder;
 	}
+	private User getSeller() {
+		return seller;
+	}
+	private void setSeller(User seller) {
+		this.seller = seller;
+	}
 	public long getId() {
 		return id;
+	}
+	@SuppressWarnings("unused")
+	private void setId(long id) {
+		this.id = id;
 	}
 }

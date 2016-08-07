@@ -1,5 +1,8 @@
 package com.amudhan.caveatemptor.entity;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Address {
 	private long id;
 	private String building;
@@ -42,5 +45,9 @@ public class Address {
 	}
 	public long getId() {
 		return id;
+	}
+	@SuppressWarnings("unused")
+	private void setId(long id) {
+		this.id = id;
 	}
 }

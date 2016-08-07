@@ -18,11 +18,13 @@
 		<commons-logging.version>1.2</commons-logging.version>
 		<mysql-version>6.0.3</mysql-version>
 		<hibernate-entity-manager-version>5.2.1.Final</hibernate-entity-manager-version>
+		<hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
 		<hikaricp-version>2.4.5</hikaricp-version>
 	</properties>
 
-	<name>caveatemptor</name>
+	<name>Caveat Emptor</name>
   	<url>http://maven.apache.org</url>
+  	<description>Services that help selling and buying through auction method</description>
 
 	<dependencies>
 		<!-- spring-->
@@ -56,6 +58,48 @@
 		    <artifactId>spring-security-web</artifactId>
 		    <version>${org.springframework.security.version}</version>
 		</dependency>
+		<dependency>
+  			<groupId>mysql</groupId>
+  			<artifactId>mysql-connector-java</artifactId>
+  			<version>${mysql-version}</version>
+	  	</dependency>
+	  	<!-- Hibernate implementation of JPA -->
+	  	<dependency>
+	    	<groupId>org.hibernate</groupId>
+	    	<artifactId>hibernate-entitymanager</artifactId>
+	    	<version>${hibernate-entity-manager-version}</version>
+		</dependency>
+		<!-- Hibernate validation engine -->
+		<dependency>
+    		<groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-validator</artifactId>
+    		<version>${hibernate-validator-version}</version>
+		</dependency>
+		<!-- HikariCP, connnection pool -->
+		<dependency>
+    		<groupId>com.zaxxer</groupId>
+    		<artifactId>HikariCP</artifactId>
+    		<version>${hikaricp-version}</version>
+    		<scope>compile</scope>
+		</dependency>
+		<!-- logging -->
+		<!-- SLF4J API -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<!-- LOG4J implementation of SLF4J API -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j-versionl}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j-versionl}</version>
+		</dependency>
 		<!-- testng -->
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -73,6 +117,18 @@
 		    		<source>1.8</source>
 		    		<target>1.8</target>
 	      		</configuration>
+      		</plugin>
+      		<plugin>
+      			<groupId>org.liquibase</groupId>
+      			<artifactId>liquibase-maven-plugin</artifactId>
+      			<version>3.5.1</version>
+      			<configuration>
+      				<changeLogFile>src/main/resources/liquibase/changelog-test.sql</changeLogFile>
+      				<driver>com.mysql.cj.jdbc.Driver</driver>
+      				<url>jdbc:mysql://localhost:3306/caveat_emptor_test</url>
+      				<username>root</username>
+      				<password>root</password>
+      			</configuration>
       		</plugin>
     	</plugins>
   	</build>

@@ -1,5 +1,8 @@
 package com.amudhan.caveatemptor.entity;
 
+import javax.persistence.Entity;
+
+@Entity
 public abstract class BillingDetails {
 	private long id;
 	private User owner;
