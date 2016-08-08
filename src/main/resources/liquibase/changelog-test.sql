@@ -2,18 +2,18 @@
 --changeset amudhan:1
 drop table if exists category_parent;
 drop table if exists category;
+drop table if exists itemimages;
 drop table if exists item;
 drop table if exists image;
-drop table if exists itemimages;
 drop table if exists useraddress;
 drop table if exists address;
-drop table if exists user_details;
 drop table if exists sellingitems;
 drop table if exists biddingitems;
 drop table if exists bid;
 drop table if exists bankaccount;
 drop table if exists creditcard;
 drop table if exists billingdetails;
+drop table if exists user_details;
 
 create table category(id int unsigned primary key auto_increment, name varchar(50));
 create table category_parent(cid int unsigned not null, parentid int unsigned not null, primary key(cid, parentid), 

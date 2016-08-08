@@ -16,10 +16,11 @@
 		<log4j-versionl>2.6.1</log4j-versionl>
 		<testng-version>6.9.10</testng-version>
 		<commons-logging.version>1.2</commons-logging.version>
-		<mysql-version>6.0.3</mysql-version>
+		<mysql-version>5.1.39</mysql-version>
 		<hibernate-entity-manager-version>5.2.1.Final</hibernate-entity-manager-version>
 		<hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
 		<hikaricp-version>2.4.5</hikaricp-version>
+		<liquibase-version>3.5.1</liquibase-version>
 	</properties>
 
 	<name>Caveat Emptor</name>
@@ -121,10 +122,10 @@
       		<plugin>
       			<groupId>org.liquibase</groupId>
       			<artifactId>liquibase-maven-plugin</artifactId>
-      			<version>3.5.1</version>
+      			<version>${liquibase-version}</version>
       			<configuration>
       				<changeLogFile>src/main/resources/liquibase/changelog-test.sql</changeLogFile>
-      				<driver>com.mysql.cj.jdbc.Driver</driver>
+      				<driver>com.mysql.jdbc.Driver</driver>
       				<url>jdbc:mysql://localhost:3306/caveat_emptor_test</url>
       				<username>root</username>
       				<password>root</password>
