@@ -26,6 +26,24 @@
 	<name>Caveat Emptor</name>
   	<url>http://maven.apache.org</url>
   	<description>Services that help selling and buying through auction method</description>
+  	
+  	<profiles>
+  		<profile>
+  			<id>dev</id>
+  			<properties>
+  				<env>dev</env>
+  			</properties>
+  		</profile>
+  		<profile>
+  			<id>test</id>
+  			<activation>
+            	<activeByDefault>true</activeByDefault>
+        	</activation>
+  			<properties>
+  				<env>test</env>
+  			</properties>
+  		</profile>
+  	</profiles>
 
 	<dependencies>
 		<!-- spring-->
@@ -64,6 +82,12 @@
   			<artifactId>mysql-connector-java</artifactId>
   			<version>${mysql-version}</version>
 	  	</dependency>
+	  	<!--liquibase-core -->
+		<dependency>
+    		<groupId>org.liquibase</groupId>
+    		<artifactId>liquibase-core</artifactId>
+    		<version>${liquibase-version}</version>
+		</dependency>
 	  	<!-- Hibernate implementation of JPA -->
 	  	<dependency>
 	    	<groupId>org.hibernate</groupId>
@@ -124,12 +148,15 @@
       			<artifactId>liquibase-maven-plugin</artifactId>
       			<version>${liquibase-version}</version>
       			<configuration>
-      				<changeLogFile>src/main/resources/liquibase/changelog-test.sql</changeLogFile>
-      				<driver>com.mysql.jdbc.Driver</driver>
-      				<url>jdbc:mysql://localhost:3306/caveat_emptor_test</url>
-      				<username>root</username>
-      				<password>root</password>
+      				<propertyFile>src/main/resources/liquibase/properties/liquibase_${env}.properties</propertyFile>
       			</configuration>
+      			<executions>
+      				<execution>
+      					<goals>
+      						<goal>update</goal>
+      					</goals>
+      				</execution>
+      			</executions>
       		</plugin>
     	</plugins>
   	</build>
