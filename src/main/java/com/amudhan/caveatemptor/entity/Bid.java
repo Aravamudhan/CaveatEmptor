@@ -7,9 +7,9 @@ public class Bid {
 	private long id;
 	private BigDecimal amount;
 	private Date createdOn;
+	private boolean isSuccess;
 	private Item item;
 	private User bidder;
-	private User seller;
 	public BigDecimal getAmount() {
 		return amount;
 	}
@@ -23,6 +23,12 @@ public class Bid {
 		this.createdOn = createdOn;
 	}
 	
+	public boolean isSuccess() {
+		return isSuccess;
+	}
+	public void setSuccess(boolean isSuccess) {
+		this.isSuccess = isSuccess;
+	}
 	public Item getItem() {
 		return item;
 	}
@@ -34,12 +40,6 @@ public class Bid {
 	}
 	public void setBidder(User bidder) {
 		this.bidder = bidder;
-	}
-	private User getSeller() {
-		return seller;
-	}
-	private void setSeller(User seller) {
-		this.seller = seller;
 	}
 	public long getId() {
 		return id;

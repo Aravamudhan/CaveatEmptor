@@ -7,12 +7,15 @@ import java.util.Set;
 import javax.persistence.Entity;
 
 @Entity
+@SuppressWarnings("unused")
 public class Item {
 	private long id;
 	private String name;
 	private BigDecimal initialPrice;
 	private Date auctionStart;
 	private Date auctionEnd;
+	private boolean isEnd;
+	private boolean inProgress;
 	private Set<Image> images;
 	private Set<Bid> bids;
 	private User seller;
@@ -42,6 +45,18 @@ public class Item {
 	}
 	public void setAuctionStart(Date auctionStart) {
 		this.auctionStart = auctionStart;
+	}
+	public boolean isEnd() {
+		return isEnd;
+	}
+	public void setEnd(boolean isEnd) {
+		this.isEnd = isEnd;
+	}
+	public boolean isInProgress() {
+		return inProgress;
+	}
+	public void setInProgress(boolean inProgress) {
+		this.inProgress = inProgress;
 	}
 	public Set<Image> getImages() {
 		return images;
@@ -76,7 +91,6 @@ public class Item {
 	public long getId() {
 		return id;
 	}
-	@SuppressWarnings("unused")
 	private void setId(long id) {
 		this.id = id;
 	}
