@@ -24,13 +24,10 @@ create table address(id int unsigned primary key auto_increment, addresstype var
 create table bid(id int unsigned primary key auto_increment, amount decimal not null, createdon timestamp not null, issuccess bit(1) default 0, itemid int unsigned not null, bidderid int unsigned not null, 
 	constraint fk_itemid_bidding foreign key(itemid) references item(id) on delete cascade,
 	constraint fk_bidderid_bidding foreign key(bidderid) references user_details(id) on delete cascade);
-create table billingdetails(id int unsigned primary key auto_increment, billingtype varchar(20) not null default 'CREDITCARD', 
-	userid int unsigned not null, constraint fk_userid_bd foreign key(userid) references user_details(id) on delete cascade);
-create table creditcard(id int unsigned primary key auto_increment, creditcardnumber varchar(30) not null, 
-	expirymonth int not null, expiryyear int not null, billingid int unsigned unique not null, 
-	constraint fk_billingid_cc foreign key(billingid) references billingdetails(id) on delete cascade);
+create table creditcard(id int unsigned primary key auto_increment, creditcardnumber varchar(30) not null, expirymonth int not null, expiryyear int not null, 
+	userid int unsigned not null, constraint fk_userid_cc foreign key(userid) references user_details(id) on delete cascade);
 create table bankaccount(id int unsigned primary key auto_increment, accountnumber varchar(50) not null, bankname varchar(100), 
-	billingid int unsigned unique not null, constraint fk_billingid_ba foreign key(billingid) references billingdetails(id) on delete cascade);
+	userid int unsigned not null, constraint fk_userid_ba foreign key(userid) references user_details(id) on delete cascade);
 
 
 
