@@ -1,12 +1,17 @@
 package com.amudhan.caveatemptor.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
-@Entity()
+@Entity(name="bankaccount")
 public class BankAccount extends BillingDetails {
+	@Column(name="accountnumber")
+	@NotNull
 	private String accountNumber;
+	@Column(name="bankname")
+	@NotNull
 	private String bankName;
-	private final BillingDetails.BillingType billingType = BillingDetails.BillingType.BANKACCOUNT;
 	
 	public String getAccountNumber() {
 		return accountNumber;
@@ -20,8 +25,4 @@ public class BankAccount extends BillingDetails {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	public BillingDetails.BillingType getBillingType() {
-		return billingType;
-	}
-	
 }	

@@ -1,19 +1,23 @@
 package com.amudhan.caveatemptor.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity
+@Entity(name="creditcard")
 public class CreditCard extends BillingDetails {
-	private String number;
+
+	@Column(name="creditcardnumber")
+	private String creditCardNumber;
+	@Column(name="expirymonth")
 	private String expiryMonth;
+	@Column(name="expiryyear")
 	private String expiryYear;
-	private final BillingDetails.BillingType billingType = BillingDetails.BillingType.CREDITCARD;
 	
-	public String getNumber() {
-		return number;
+	public String getCreditCardNumber() {
+		return creditCardNumber;
 	}
-	public void setNumber(String number) {
-		this.number = number;
+	public void setCreditCardNumber(String creditCardNumber) {
+		this.creditCardNumber = creditCardNumber;
 	}
 	public String getExpiryMonth() {
 		return expiryMonth;
@@ -27,7 +31,10 @@ public class CreditCard extends BillingDetails {
 	public void setEmpiryYear(String expiryYear) {
 		this.expiryYear = expiryYear;
 	}
-	public BillingDetails.BillingType getBillingType() {
-		return billingType;
+	public String getExpiryYear() {
+		return expiryYear;
+	}
+	public void setExpiryYear(String expiryYear) {
+		this.expiryYear = expiryYear;
 	}
 }

@@ -24,10 +24,10 @@ public class Image {
 	public void setName(String name) {
 		this.name = name;
 	}
-	private String getImageUrl() {
+	public String getImageUrl() {
 		return imageUrl;
 	}
-	private void setImageUrl(String imageUrl) {
+	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
 	public Item getItem() {
@@ -39,8 +39,7 @@ public class Image {
 	public long getId() {
 		return id;
 	}
-	@SuppressWarnings("unused")
-	private void setId(long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 }
