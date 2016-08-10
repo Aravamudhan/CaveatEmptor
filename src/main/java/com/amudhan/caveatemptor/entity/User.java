@@ -73,7 +73,7 @@ public class User {
 	public Set<Address> getAddresses() {
 		return addresses;
 	}
-	public void setAddressess(Set<Address> addresses) {
+	public void setAddresses(Set<Address> addresses) {
 		this.addresses = addresses;
 	}
 	public Set<BillingDetails> getBillingDetails() {

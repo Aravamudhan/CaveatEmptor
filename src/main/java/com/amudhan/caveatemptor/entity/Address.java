@@ -1,15 +1,33 @@
 package com.amudhan.caveatemptor.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-@Entity
+@Entity(name="address")
 public class Address {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	@Column(name="building", nullable=false)
 	private String building;
+	@Column(name="street", nullable=false)
 	private String street;
+	@Column(name="zipcode", nullable=false)
 	private String zipcode;
+	@Column(name="city", nullable=false)
 	private String city;
+	@Enumerated(EnumType.STRING)
+	@Column(name="usertype")
+	@NotNull
 	private AddressType addressType;
+	@NotNull
+	private User user;
 	
 	public enum AddressType{ BILLING, SHIPPING}
 	
@@ -42,6 +60,12 @@ public class Address {
 	}
 	public void setAddressType(AddressType addressType) {
 		this.addressType = addressType;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public long getId() {
 		return id;
