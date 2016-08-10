@@ -11,7 +11,7 @@ public class Address {
 	private String city;
 	private AddressType addressType;
 	
-	public enum AddressType{ HOME, BILLING, SHIPPING}
+	public enum AddressType{ BILLING, SHIPPING}
 	
 	public String getBuilding() {
 		return building;

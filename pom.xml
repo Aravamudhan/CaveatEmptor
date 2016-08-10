@@ -143,6 +143,10 @@
 		    		<target>1.8</target>
 	      		</configuration>
       		</plugin>
+      		<!-- To run this, -Denv=${profile} liquibase:update -->
+      		<!-- Based on the selection of the profile, the value of the property 'env' would be 'dev' or 'test'. -->
+      		<!-- The liquibase plugin should be run before deploying the build to create tables and populating data. -->
+      		<!-- This is helpful when the code base is worked on multiple machines. Liquibase is version control for databases -->
       		<plugin>
       			<groupId>org.liquibase</groupId>
       			<artifactId>liquibase-maven-plugin</artifactId>

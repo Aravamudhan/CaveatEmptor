@@ -4,22 +4,35 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Entity
+@Entity(name="item")
 @SuppressWarnings("unused")
 public class Item {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@Column(name="name", nullable=false)
 	private String name;
+	@Column(name="initialprice", nullable=false)
 	private BigDecimal initialPrice;
+	@Column(name="auctionstart")
 	private Date auctionStart;
+	@Column(name="auctionend")
 	private Date auctionEnd;
-	private boolean isEnd;
-	private boolean inProgress;
+	@Column(name="is_auction_ended")
+	private boolean isAuctionEnded;
+	@Column(name="is_auction_in_progress")
+	private boolean isAuctionInProgress;
 	private Set<Image> images;
 	private Set<Bid> bids;
 	private User seller;
 	private Set<Category> categories;
+	@Column(name="description")
 	private String description;
 	
 	public String getName() {
@@ -46,17 +59,17 @@ public class Item {
 	public void setAuctionStart(Date auctionStart) {
 		this.auctionStart = auctionStart;
 	}
-	public boolean isEnd() {
-		return isEnd;
+	private boolean isAuctionEnded() {
+		return isAuctionEnded;
 	}
-	public void setEnd(boolean isEnd) {
-		this.isEnd = isEnd;
+	private void setAuctionEnded(boolean isAuctionEnded) {
+		this.isAuctionEnded = isAuctionEnded;
 	}
-	public boolean isInProgress() {
-		return inProgress;
+	private boolean isAuctionInProgress() {
+		return isAuctionInProgress;
 	}
-	public void setInProgress(boolean inProgress) {
-		this.inProgress = inProgress;
+	private void setAuctionInProgress(boolean isAuctionInProgress) {
+		this.isAuctionInProgress = isAuctionInProgress;
 	}
 	public Set<Image> getImages() {
 		return images;

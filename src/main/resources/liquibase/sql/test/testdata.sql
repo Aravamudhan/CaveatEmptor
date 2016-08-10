@@ -23,3 +23,6 @@ set @exmonth='1';
 set @exyear='2018';
 insert into creditcard(creditcardnumber, expirymonth, expiryyear, billingid)select concat(@ccnumber,@ccount:=@count+1) as creditcardnumber, 
 	(@exmonth:=@exmonth+1)as expirymonth,(@exyear:=@exyear+1)as exyear, id as billingid from billingdetails where billingtype='CREDITCARD';
+insert into category(name)values('e-reader'),('book'),('ebook'),('hardcover'),('phone');
+insert into user_details (firstname, lastname, usertype) values ('Rob','Stark','SELLER'),('Jon','Aryn','BUYER');
+insert into item (name, initialprice,description, sellerid, categoryid) values('Lenovo', 12000, 'A good phone', 2, 9);
