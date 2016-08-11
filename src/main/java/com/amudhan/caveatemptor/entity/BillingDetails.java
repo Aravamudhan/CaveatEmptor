@@ -1,11 +1,14 @@
 package com.amudhan.caveatemptor.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -17,6 +20,8 @@ public abstract class BillingDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="userid")
 	@NotNull
 	private User owner;
 		

@@ -3,11 +3,14 @@ package com.amudhan.caveatemptor.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity(name="bid")
@@ -21,8 +24,12 @@ public class Bid {
 	private Date createdOn;
 	@Column(name="issuccess", columnDefinition="default 0")
 	private boolean isSuccess;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="itemid")
 	@NotNull
 	private Item item;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="bidderid")
 	@NotNull
 	private User bidder;
 	public BigDecimal getAmount() {

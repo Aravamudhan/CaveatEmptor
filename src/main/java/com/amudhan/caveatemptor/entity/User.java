@@ -40,9 +40,13 @@ public class User {
 	@Column(name="usertype")
 	@NotNull
 	private UserType userType;
+	@OneToMany(mappedBy="seller")
 	private Set<Item> sellingItems;
+	@OneToMany(mappedBy="bidder")
 	private Set<Bid> bids;
+	@OneToMany(mappedBy="user")
 	private Set<Address> addresses;
+	@OneToMany(mappedBy="owner")
 	private Set<BillingDetails> billingDetails; 
 	
 	public enum UserType{ SELLER, BUYER, ADMIN}
