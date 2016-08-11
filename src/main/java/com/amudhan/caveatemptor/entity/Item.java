@@ -15,8 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity(name="item")
-@SuppressWarnings("unused")
-public class Item {
+public class Item{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -69,16 +68,16 @@ public class Item {
 	public void setAuctionStart(Date auctionStart) {
 		this.auctionStart = auctionStart;
 	}
-	private boolean isAuctionEnded() {
+	public boolean isAuctionEnded() {
 		return isAuctionEnded;
 	}
-	private void setAuctionEnded(boolean isAuctionEnded) {
+	public void setAuctionEnded(boolean isAuctionEnded) {
 		this.isAuctionEnded = isAuctionEnded;
 	}
-	private boolean isAuctionInProgress() {
+	public boolean isAuctionInProgress() {
 		return isAuctionInProgress;
 	}
-	private void setAuctionInProgress(boolean isAuctionInProgress) {
+	public void setAuctionInProgress(boolean isAuctionInProgress) {
 		this.isAuctionInProgress = isAuctionInProgress;
 	}
 	public Set<Image> getImages() {
@@ -114,7 +113,7 @@ public class Item {
 	public long getId() {
 		return id;
 	}
-	private void setId(long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
