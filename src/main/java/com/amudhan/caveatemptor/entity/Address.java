@@ -79,4 +79,10 @@ public class Address {
 	private void setId(long id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", building=" + building + ", street="
+				+ street + ", zipcode=" + zipcode + ", city=" + city
+				+ ", addressType=" + addressType + ", user=" + user + "]";
+	}
 }

@@ -116,5 +116,15 @@ public class Item{
 	public void setId(long id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", name=" + name + ", initialPrice="
+				+ initialPrice + ", auctionStart=" + auctionStart
+				+ ", auctionEnd=" + auctionEnd + ", isAuctionEnded="
+				+ isAuctionEnded + ", isAuctionInProgress="
+				+ isAuctionInProgress + ", images=" + images + ", bids=" + bids
+				+ ", seller=" + seller + ", category=" + category
+				+ ", description=" + description + "]";
+	}
 	
 }

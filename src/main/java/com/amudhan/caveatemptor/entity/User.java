@@ -93,5 +93,12 @@ public class User {
 	public void setId(long id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", userType=" + userType
+				+ ", sellingItems=" + sellingItems + ", bids=" + bids
+				+ ", addresses=" + addresses + ", billingDetails="
+				+ billingDetails + "]";
+	}
 
 }

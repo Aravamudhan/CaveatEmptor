@@ -70,4 +70,10 @@ public class Bid {
 	private void setId(long id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Bid [id=" + id + ", amount=" + amount + ", createdOn="
+				+ createdOn + ", isSuccess=" + isSuccess + ", item=" + item
+				+ ", bidder=" + bidder + "]";
+	}
 }
