@@ -7,5 +7,4 @@ import com.amudhan.caveatemptor.entity.Item;
 public interface ItemService {
 	public Item getItem(long id);
 	public List<Item> getItems();
-	
 }

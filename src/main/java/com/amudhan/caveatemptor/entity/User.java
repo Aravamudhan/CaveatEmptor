@@ -1,5 +1,6 @@
 package com.amudhan.caveatemptor.entity;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -24,7 +25,11 @@ import javax.validation.constraints.NotNull;
  * Billing details - A user can have multiple billing details of types BANKACCOUNT and CREDITCARD.
  * */
 @Entity(name="user_details")
-public class User {
+public class User implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
