@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
+import com.amudhan.caveatemptor.constant.UserQueries;
 import com.amudhan.caveatemptor.dao.UserDao;
 import com.amudhan.caveatemptor.entity.User;
 
@@ -16,15 +18,18 @@ public class UserDaoImpl implements UserDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = entityManager.createNamedQuery(UserQueries.GETALLUSERS);
+		List<User> users = (List<User>)query.getResultList();
+		return users;
 	}
 
 	@Override
 	public User getUser(long id) {
 		return entityManager.find(User.class, id);
 	}
+	
 
 }

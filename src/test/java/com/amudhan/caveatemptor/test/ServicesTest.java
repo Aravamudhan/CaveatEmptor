@@ -28,12 +28,12 @@ public class ServicesTest extends AbstractTestNGSpringContextTests{
 	@Inject
 	private CategoryService categoryService;
 	private static final Logger logger = LoggerFactory.getLogger(ServicesTest.class);
-	
+		
 	@Test
 	void getUsers(){
 		List<User> users = userService.getUsers();
 		for(User user:users){
-			logger.info(user.toString());
+			logger.info(user.getId()+" "+user.getName().getFirstName()+" "+user.getName().getLastName());
 		}
 		Assert.assertNotNull(users);
 	}
@@ -41,14 +41,14 @@ public class ServicesTest extends AbstractTestNGSpringContextTests{
 	@Test
 	void getUser(){
 		User user = userService.getUser(1);
-		logger.info(user.toString());
+		logger.info(user.getId()+" "+user.getName().getFirstName()+" "+user.getName().getLastName());
 		Assert.assertNotNull(user);
 	}
 	
 	@Test
 	void getCategory(){
 		Category category = categoryService.getCategory(9);
-		logger.info(category.toString());
+		logger.info(category.getId()+" "+category.getName());
 		Assert.assertNotNull(category);
 	}
 }

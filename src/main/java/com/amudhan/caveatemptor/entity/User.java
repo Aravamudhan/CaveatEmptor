@@ -13,9 +13,17 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.amudhan.caveatemptor.constant.UserQueries;
+
+@NamedQueries({
+	@NamedQuery(name=UserQueries.GETALLUSERS, query=UserQueries.GETALLUSERS_Q)
+})
 /*
  * User - A user can be a seller or a buyer.
  * Name - A value type that represents firstName and lastName.
@@ -24,7 +32,8 @@ import javax.validation.constraints.NotNull;
  * Address- A user can have multiple addresses with types BILLING and SHIPPING.
  * Billing details - A user can have multiple billing details of types BANKACCOUNT and CREDITCARD.
  * */
-@Entity(name="user_details")
+@Entity
+@Table(name="user_details")
 public class User implements Serializable{
 	/**
 	 * 
@@ -52,7 +61,9 @@ public class User implements Serializable{
 	@OneToMany(mappedBy="user")
 	private Set<Address> addresses;
 	@OneToMany(mappedBy="owner")
-	private Set<BillingDetails> billingDetails; 
+	private Set<CreditCard> creditCards; 
+	@OneToMany(mappedBy="owner")
+	private Set<BankAccount> bankAccounts;
 	
 	public enum UserType{ SELLER, BUYER, ADMIN}
 	
@@ -86,11 +97,20 @@ public class User implements Serializable{
 	public void setAddresses(Set<Address> addresses) {
 		this.addresses = addresses;
 	}
-	public Set<BillingDetails> getBillingDetails() {
-		return billingDetails;
+	public Set<CreditCard> getCreditCards() {
+		return creditCards;
 	}
-	public void setBillingDetails(Set<BillingDetails> billingDetails) {
-		this.billingDetails = billingDetails;
+	public void setCreditCards(Set<CreditCard> creditCards) {
+		this.creditCards = creditCards;
+	}
+	public Set<BankAccount> getBankAccounts() {
+		return bankAccounts;
+	}
+	public void setBankAccounts(Set<BankAccount> bankAccounts) {
+		this.bankAccounts = bankAccounts;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public long getId() {
 		return id;
@@ -98,12 +118,4 @@ public class User implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", userType=" + userType
-				+ ", sellingItems=" + sellingItems + ", bids=" + bids
-				+ ", addresses=" + addresses + ", billingDetails="
-				+ billingDetails + "]";
-	}
-
 }
