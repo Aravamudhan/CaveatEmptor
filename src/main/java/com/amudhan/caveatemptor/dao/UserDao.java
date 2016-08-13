@@ -10,4 +10,6 @@ public interface UserDao {
 	 * **/
 	public List<User> getUsers();
 	public User getUser(long id);
+	public void save(User user);
+	public void delete(User user);
 }

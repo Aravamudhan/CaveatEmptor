@@ -30,6 +30,16 @@ public class UserDaoImpl implements UserDao {
 	public User getUser(long id) {
 		return entityManager.find(User.class, id);
 	}
+
+	@Override
+	public void save(User user) {
+		entityManager.persist(user);
+	}
+
+	@Override
+	public void delete(User user) {
+		entityManager.remove(user);
+	}
 	
 
 }

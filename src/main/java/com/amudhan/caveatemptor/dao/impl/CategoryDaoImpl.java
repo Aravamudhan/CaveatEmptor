@@ -1,5 +1,7 @@
 package com.amudhan.caveatemptor.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,6 +19,11 @@ public class CategoryDaoImpl implements CategoryDao{
 	@Override
 	public Category getCategory(long id) {
 		return entityManager.find(Category.class, id);
+	}
+
+	@Override
+	public List<Category> getCategories() {
+		return null;
 	}
 
 }

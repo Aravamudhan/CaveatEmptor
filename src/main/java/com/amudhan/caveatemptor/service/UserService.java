@@ -7,4 +7,5 @@ import com.amudhan.caveatemptor.entity.User;
 public interface UserService {
 	public User getUser(long id);
 	public List<User> getUsers();
+	public void save(User user);
 }
