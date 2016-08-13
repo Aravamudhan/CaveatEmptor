@@ -10,7 +10,8 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
 /**
- * By default the properties of a superclass are ignored unless annotated by MappedSuperclass
+ * By default the properties of a superclass are ignored unless annotated as MappedSuperclass.
+ * For the entities that extend this class, the mapping meta data present here will be applied.
  * **/
 @MappedSuperclass
 public abstract class BillingDetails {

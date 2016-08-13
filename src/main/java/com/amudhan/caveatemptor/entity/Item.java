@@ -13,9 +13,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Entity(name="item")
+import com.amudhan.caveatemptor.constant.ItemQueries;
+
+@NamedQueries({
+	@NamedQuery(name=ItemQueries.GETALLITEMS, query=ItemQueries.GETALLITEMS_Q)
+})
+@Entity
+@Table(name="item")
 public class Item implements Serializable{
 	/**
 	 * 

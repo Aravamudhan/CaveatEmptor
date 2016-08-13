@@ -1,26 +1,19 @@
 package com.amudhan.caveatemptor.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.amudhan.caveatemptor.constant.BankAccountQueries;
+@NamedQueries({
+	@NamedQuery(name=BankAccountQueries.GETALLBANKACCOUNTS, query=BankAccountQueries.GETALLBANKACCOUNTS_Q)
+})
 @Entity
 @Table(name="bankaccount")
-public class BankAccount {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="userid")
-	@NotNull
-	private User owner;
+public class BankAccount extends BillingDetails{
 	@Column(name="accountnumber")
 	@NotNull
 	private String accountNumber;
@@ -38,17 +31,5 @@ public class BankAccount {
 	}
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public User getOwner() {
-		return owner;
-	}
-	public void setOwner(User owner) {
-		this.owner = owner;
 	}
 }	

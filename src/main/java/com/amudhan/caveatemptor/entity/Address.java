@@ -10,9 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Entity(name="address")
+import com.amudhan.caveatemptor.constant.AddressQueries;
+@NamedQueries({
+	@NamedQuery(name=AddressQueries.GETALLADDRESSES, query=AddressQueries.GETALLADDRESSES_Q)
+})
+@Entity
+@Table(name="address")
 public class Address {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

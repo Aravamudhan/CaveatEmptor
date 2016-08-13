@@ -1,26 +1,19 @@
 package com.amudhan.caveatemptor.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
-@Entity(name="creditcard")
-@Table(name="bankaccount")
-public class CreditCard {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="userid")
-	@NotNull
-	private User owner;
+import com.amudhan.caveatemptor.constant.CreditCardQueries;
+
+@NamedQueries({
+	@NamedQuery(name=CreditCardQueries.GETALLCREDITCARDS, query=CreditCardQueries.GETALLCREDITCARDS_Q)
+})
+@Entity
+@Table(name="creditcard")
+public class CreditCard extends BillingDetails{
 	@Column(name="creditcardnumber")
 	private String creditCardNumber;
 	@Column(name="expirymonth")
@@ -50,17 +43,5 @@ public class CreditCard {
 	}
 	public void setExpiryYear(String expiryYear) {
 		this.expiryYear = expiryYear;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public User getOwner() {
-		return owner;
-	}
-	public void setOwner(User owner) {
-		this.owner = owner;
 	}
 }

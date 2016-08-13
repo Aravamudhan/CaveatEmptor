@@ -10,9 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Entity(name="category")
+import com.amudhan.caveatemptor.constant.CategoryQueries;
+@NamedQueries({
+	@NamedQuery(name=CategoryQueries.GETALLCATEGORIES, query=CategoryQueries.GETALLCATEGORIES_Q)
+})
+@Entity
+@Table(name="category")
 public class Category {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
