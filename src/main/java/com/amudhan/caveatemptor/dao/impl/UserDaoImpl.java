@@ -22,8 +22,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List<User> getUsers() {
 		Query query = entityManager.createNamedQuery(UserQueries.GETALLUSERS);
-		List<User> users = (List<User>)query.getResultList();
-		return users;
+		return query.getResultList();
 	}
 
 	@Override
@@ -32,12 +31,12 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void save(User user) {
+	public void persist(User user) {
 		entityManager.persist(user);
 	}
 
 	@Override
-	public void delete(User user) {
+	public void remove(User user) {
 		entityManager.remove(user);
 	}
 	

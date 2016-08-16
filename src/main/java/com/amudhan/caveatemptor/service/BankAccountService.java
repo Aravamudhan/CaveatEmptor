@@ -1,8 +1,8 @@
-package com.amudhan.caveatemptor.dao;
+package com.amudhan.caveatemptor.service;
 
 import com.amudhan.caveatemptor.entity.BankAccount;
 
-public interface BankAccountDao {
+public interface BankAccountService {
 	public void persist(BankAccount bankAccount);
 	public void remove(BankAccount bankAccount);
 }

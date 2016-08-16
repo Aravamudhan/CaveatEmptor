@@ -29,4 +29,14 @@ public class ItemServiceImpl implements ItemService {
 		return itemDao.getItems();
 	}
 
+	@Override
+	public void persist(Item item) {
+		itemDao.persist(item);
+	}
+
+	@Override
+	public void remove(Item item) {
+		itemDao.remove(item);
+	}
+
 }

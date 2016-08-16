@@ -5,11 +5,8 @@ import java.util.List;
 import com.amudhan.caveatemptor.entity.User;
 
 public interface UserDao {
-	/**
-	 * Read operations
-	 * **/
 	public List<User> getUsers();
 	public User getUser(long id);
-	public void save(User user);
-	public void delete(User user);
+	public void persist(User user);
+	public void remove(User user);
 }

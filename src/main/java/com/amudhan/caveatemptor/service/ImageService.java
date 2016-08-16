@@ -1,10 +1,10 @@
-package com.amudhan.caveatemptor.dao;
+package com.amudhan.caveatemptor.service;
 
 import java.util.List;
 
 import com.amudhan.caveatemptor.entity.Image;
 
-public interface ImageDao {
+public interface ImageService {
 	public List<Image> getImages();
 	public Image getImage(long id);
 	public void persist(Image image);
