@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.amudhan.caveatemptor.constant.CategoryQueries;
@@ -23,7 +24,8 @@ import com.amudhan.caveatemptor.constant.CategoryQueries;
 @Table(name="category")
 public class Category {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="category_sequence")
+	@SequenceGenerator(initialValue= 1, name="category_sequence", allocationSize=1)
 	private long id;
 	@Column(name="name")
 	private String name;

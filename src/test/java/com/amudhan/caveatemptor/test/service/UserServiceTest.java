@@ -6,14 +6,12 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.annotation.Commit;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.amudhan.caveatemptor.entity.Name;
 import com.amudhan.caveatemptor.entity.User;
-import com.amudhan.caveatemptor.entity.User.UserType;
 import com.amudhan.caveatemptor.service.UserService;
+import com.amudhan.caveatemptor.test.ServiceTest;
 
 public class UserServiceTest extends ServiceTest{
 	@Inject
@@ -36,22 +34,6 @@ public class UserServiceTest extends ServiceTest{
 		Assert.assertNotNull(user);
 		Assert.assertEquals("James",user.getName().getFirstName());
 		Assert.assertEquals("Bond",user.getName().getLastName());
-	}
-	
-	@Test
-	@Commit
-	void saveUserBuyer(){
-		User user = new User();
-		Name name = new Name("TestFirstName","TestLastName");
-		//Address addressHome = new Address();
-		//Address addressBilling = new Address();
-		user.setName(name);
-		/*user.setBankAccounts(bankAccounts);
-		user.setCreditCards(creditCards);
-		user.setBids(bids);*/
-		user.setUserType(UserType.BUYER);
-		userService.save(user);
-		logger.info("Save user");
 	}
 	
 }

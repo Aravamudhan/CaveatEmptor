@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -40,7 +41,8 @@ public class User implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_sequence")
+	@SequenceGenerator(initialValue= 1, name="user_sequence", allocationSize=1)
 	private long id;
 	/*Instead of using @Embedded type, separate String types for firstName, lastName could also be used, 
 	 * with direct mapping to their respective columns. Name here is a value type without any persistent identifier.*/

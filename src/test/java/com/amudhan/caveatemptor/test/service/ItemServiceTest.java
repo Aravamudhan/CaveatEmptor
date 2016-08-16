@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import com.amudhan.caveatemptor.entity.Item;
 import com.amudhan.caveatemptor.service.ItemService;
+import com.amudhan.caveatemptor.test.ServiceTest;
 
 
 public class ItemServiceTest extends ServiceTest{

@@ -1,4 +1,4 @@
-package com.amudhan.caveatemptor.test.service;
+package com.amudhan.caveatemptor.test;
 
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;

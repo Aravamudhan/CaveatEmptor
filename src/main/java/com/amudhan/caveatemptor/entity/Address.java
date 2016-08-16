@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -23,14 +24,15 @@ import com.amudhan.caveatemptor.constant.AddressQueries;
 @Table(name="address")
 public class Address {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="address_sequence")
+	@SequenceGenerator(initialValue= 1, name="address_sequence", allocationSize=1)
 	private long id;
 	@Column(name="building", nullable=false)
 	private String building;
 	@Column(name="street", nullable=false)
 	private String street;
 	@Column(name="zipcode", nullable=false)
-	private String zipcode;
+	private String zipCode;
 	@Column(name="city", nullable=false)
 	private String city;
 	@Enumerated(EnumType.STRING)
@@ -56,11 +58,11 @@ public class Address {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	public String getZipcode() {
-		return zipcode;
+	public String getZipCode() {
+		return zipCode;
 	}
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 	public String getCity() {
 		return city;
@@ -90,7 +92,7 @@ public class Address {
 	@Override
 	public String toString() {
 		return "Address [id=" + id + ", building=" + building + ", street="
-				+ street + ", zipcode=" + zipcode + ", city=" + city
+				+ street + ", zipcode=" + zipCode + ", city=" + city
 				+ ", addressType=" + addressType + ", user=" + user + "]";
 	}
 }

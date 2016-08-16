@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -25,7 +26,8 @@ import com.amudhan.caveatemptor.constant.BidQueries;
 @Table(name="bid")
 public class Bid {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bid_sequence")
+	@SequenceGenerator(initialValue= 1, name="bid_sequence", allocationSize=1)
 	private long id;
 	@Column(name="amount", nullable=false)
 	private BigDecimal amount;

@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,7 +17,8 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 public abstract class BillingDetails {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="billing_detail_sequence")
+	@SequenceGenerator(initialValue= 1, name="billing_detail_sequence", allocationSize=1)
 	private long id;
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="userid")

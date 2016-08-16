@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +23,8 @@ import com.amudhan.caveatemptor.constant.ImageQueries;
 @Table(name="image")
 public class Image {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="image_sequence")
+	@SequenceGenerator(initialValue= 1, name="image_sequence", allocationSize=1)
 	private long id;
 	@Column(name="name")
 	private String name;
