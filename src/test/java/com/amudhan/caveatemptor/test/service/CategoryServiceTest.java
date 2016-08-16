@@ -23,6 +23,7 @@ public class CategoryServiceTest extends ServiceTest {
 	public void getCategory(){
 		Category category = categoryService.getCategory(10000000);
 		Assert.assertNotNull(category);
+		Assert.assertEquals(category.getId(), 10000000);
 		Assert.assertEquals(category.getName(), "book");
 		logger.info(category.getId()+" "+category.getName());
 	}

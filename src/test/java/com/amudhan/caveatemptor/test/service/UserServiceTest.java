@@ -31,6 +31,8 @@ public class UserServiceTest extends ServiceTest{
 	void getUser(){
 		User user = userService.getUser(10000001);
 		Assert.assertNotNull(user);
+		Assert.assertEquals(user.getId(), 10000001);
+		Assert.assertEquals(user.getUserType(), User.UserType.BUYER);
 		Assert.assertEquals("James",user.getName().getFirstName());
 		Assert.assertEquals("Bond",user.getName().getLastName());
 		logger.info(user.getId()+" "+user.getName().getFirstName()+" "+user.getName().getLastName());

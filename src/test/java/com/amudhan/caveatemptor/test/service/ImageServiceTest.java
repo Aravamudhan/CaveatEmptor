@@ -23,11 +23,13 @@ public class ImageServiceTest extends ServiceTest {
 	public void getImage(){
 		Image image = imageService.getImage(10000001);
 		Assert.assertNotNull(image);
+		Assert.assertEquals(image.getId(), 10000001);
 		Assert.assertEquals(image.getName(), "Book about steve jobs");
 		Assert.assertEquals(image.getImageUrl(),"/resources/images/thelifeofjobs.jpg");
 		logger.info(image.getName()+" "+image.getImageUrl());
 	}
 	
+	@Test
 	public void getImages(){
 		List<Image> images = imageService.getImages();
 		Assert.assertNotNull(images);

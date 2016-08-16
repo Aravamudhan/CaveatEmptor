@@ -24,7 +24,9 @@ public class BidServiceTest extends ServiceTest {
 	public void getBid(){
 		Bid bid = bidService.getBid(10000001);
 		Assert.assertNotNull(bid);
+		Assert.assertEquals(bid.getId(), 10000001);
 		Assert.assertEquals(bid.getAmount(), new BigDecimal(6500));
+		Assert.assertEquals(bid.isSuccess(), false);
 		logger.info(bid.getId()+" "+bid.getAmount());
 	}
 	

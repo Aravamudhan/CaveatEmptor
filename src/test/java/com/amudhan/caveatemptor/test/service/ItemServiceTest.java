@@ -34,6 +34,8 @@ public class ItemServiceTest extends ServiceTest{
 	public void getItem(){
 		Item item = itemService.getItem(10000001);  
 		Assert.assertNotNull(item);
+		Assert.assertEquals(item.getId(), 10000001);
+		Assert.assertEquals(item.getDescription(), "An awesome reader");
 		Assert.assertEquals(item.getName(), "Kindle e book reader");
 		Assert.assertEquals(item.getInitialPrice(), new BigDecimal(6000));
 		logger.info(item.getName()+" "+item.getInitialPrice());
