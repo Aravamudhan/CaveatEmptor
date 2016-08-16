@@ -1,6 +1,7 @@
 package com.amudhan.caveatemptor.test.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -15,13 +16,23 @@ import com.amudhan.caveatemptor.test.ServiceTest;
 
 
 public class ItemServiceTest extends ServiceTest{
+	
 	@Inject
 	private ItemService itemService;
 	private static final Logger logger = LoggerFactory.getLogger(ItemServiceTest.class);
 	
 	@Test
-	void getItem(){
-		Item item = itemService.getItem(1);
+	public void getItems(){
+		List<Item> items = itemService.getItems();
+		Assert.assertNotNull(items);
+		for(Item item:items){
+			logger.info(item.getId()+" "+item.getName());
+		}
+	}
+	
+	@Test
+	public void getItem(){
+		Item item = itemService.getItem(10000001);  
 		Assert.assertNotNull(item);
 		Assert.assertEquals(item.getName(), "Kindle e book reader");
 		Assert.assertEquals(item.getInitialPrice(), new BigDecimal(6000));

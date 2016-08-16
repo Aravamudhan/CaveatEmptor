@@ -21,19 +21,19 @@ public class UserServiceTest extends ServiceTest{
 	@Test
 	void getUsers(){
 		List<User> users = userService.getUsers();
+		Assert.assertNotNull(users);
 		for(User user:users){
 			logger.info(user.getId()+" "+user.getName().getFirstName()+" "+user.getName().getLastName());
 		}
-		Assert.assertNotNull(users);
 	}
 	
 	@Test
 	void getUser(){
-		User user = userService.getUser(1);
-		logger.info(user.getId()+" "+user.getName().getFirstName()+" "+user.getName().getLastName());
+		User user = userService.getUser(10000001);
 		Assert.assertNotNull(user);
 		Assert.assertEquals("James",user.getName().getFirstName());
 		Assert.assertEquals("Bond",user.getName().getLastName());
+		logger.info(user.getId()+" "+user.getName().getFirstName()+" "+user.getName().getLastName());
 	}
 	
 }
