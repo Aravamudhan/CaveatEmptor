@@ -2,7 +2,6 @@ package com.amudhan.caveatemptor.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -40,15 +39,15 @@ public class Address implements Serializable {
 	@Column(name="city", nullable=false)
 	private String city;
 	@Enumerated(EnumType.STRING)
-	@Column(name="usertype")
+	@Column(name="addresstype")
 	@NotNull
 	private AddressType addressType;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="userid")
 	@NotNull
 	private User user;
 	
-	public enum AddressType{ BILLING, SHIPPING}
+	public enum AddressType{ BILLING, SHIPPING, HOME}
 	
 	public String getBuilding() {
 		return building;

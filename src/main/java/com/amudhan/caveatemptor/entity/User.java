@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -32,13 +33,12 @@ import com.amudhan.caveatemptor.constant.UserQueries;
  * Buyers - One buyer can have multiple bids on different items.
  * Address- A user can have multiple addresses with types BILLING and SHIPPING.
  * Billing details - A user can have multiple billing details of types BANKACCOUNT and CREDITCARD.
+ * CascadeType.ALL - 
  * */
 @Entity
 @Table(name="user_details")
 public class User implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_sequence")
@@ -56,15 +56,15 @@ public class User implements Serializable{
 	@Column(name="usertype")
 	@NotNull
 	private UserType userType;
-	@OneToMany(mappedBy="seller")
+	@OneToMany(mappedBy="seller", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<Item> sellingItems;
-	@OneToMany(mappedBy="bidder")
+	@OneToMany(mappedBy="bidder", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<Bid> bids;
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<Address> addresses;
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<CreditCard> creditCards; 
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<BankAccount> bankAccounts;
 	
 	public enum UserType{ SELLER, BUYER, ADMIN}

@@ -2,7 +2,6 @@ package com.amudhan.caveatemptor.entity;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +28,7 @@ public class Category {
 	private long id;
 	@Column(name="name")
 	private String name;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="parentid")
 	private Category parent;
 	@OneToMany(mappedBy="category")

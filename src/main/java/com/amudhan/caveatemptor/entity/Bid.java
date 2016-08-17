@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,11 +37,11 @@ public class Bid  implements Serializable {
 	private Date createdOn;
 	@Column(name="issuccess", columnDefinition="default 0")
 	private boolean isSuccess;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="itemid")
 	@NotNull
 	private Item item;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="bidderid")
 	@NotNull
 	private User bidder;

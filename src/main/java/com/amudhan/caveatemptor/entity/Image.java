@@ -2,7 +2,6 @@ package com.amudhan.caveatemptor.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +33,7 @@ public class Image implements Serializable {
 	private String name;
 	@Column(name="imageurl", nullable=false)
 	private String imageUrl;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="itemid")
 	@NotNull
 	private Item item;

@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.amudhan.caveatemptor.constant.ItemQueries;
 
@@ -27,9 +28,7 @@ import com.amudhan.caveatemptor.constant.ItemQueries;
 @Entity
 @Table(name="item")
 public class Item implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="item_sequence")
@@ -47,14 +46,15 @@ public class Item implements Serializable{
 	private boolean isAuctionEnded;
 	@Column(name="is_auction_in_progress")
 	private boolean isAuctionInProgress;
-	@OneToMany(mappedBy="item")
+	@OneToMany(mappedBy="item", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<Image> images;
-	@OneToMany(mappedBy="item")
+	@OneToMany(mappedBy="item", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<Bid> bids;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="sellerid")
+	@NotNull
 	private User seller;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="categoryid")
 	private Category category;
 	@Column(name="description")

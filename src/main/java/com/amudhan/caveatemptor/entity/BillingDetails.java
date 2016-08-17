@@ -2,7 +2,6 @@ package com.amudhan.caveatemptor.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +23,7 @@ public abstract class BillingDetails implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="billing_detail_sequence")
 	@SequenceGenerator(initialValue= 1, name="billing_detail_sequence", allocationSize=1)
 	private long id;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="userid")
 	@NotNull
 	private User owner;
