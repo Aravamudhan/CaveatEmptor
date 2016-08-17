@@ -1,53 +1,40 @@
 package com.amudhan.caveatemptor.test.dao;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 
-import com.amudhan.caveatemptor.dao.ItemDao;
 import com.amudhan.caveatemptor.dao.UserDao;
 import com.amudhan.caveatemptor.entity.Address;
 import com.amudhan.caveatemptor.entity.Address.AddressType;
+import com.amudhan.caveatemptor.entity.BankAccount;
+import com.amudhan.caveatemptor.entity.CreditCard;
+import com.amudhan.caveatemptor.entity.Image;
+import com.amudhan.caveatemptor.entity.Item;
 import com.amudhan.caveatemptor.entity.Name;
 import com.amudhan.caveatemptor.entity.User;
 import com.amudhan.caveatemptor.entity.User.UserType;
-import com.amudhan.caveatemptor.service.UserService;
+import com.amudhan.caveatemptor.test.DaoTest;
 
-@ContextConfiguration("classpath:configuration/applicationContext-core-test.xml")
-@Transactional
-public class UserDaoTest /*extends DaoTest*/ {
+public class UserDaoTest extends DaoTest {
 
 	@Inject
 	private UserDao userDao;
-	@Inject
-	private ItemDao itemDao;
-	@Inject
-	private UserService userService;
-	@PersistenceContext
-	private EntityManager entityManager;
 	private static final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
 	
-	@Test
-	@Transactional
-	@Rollback(true)
-	public void insertUserWithAllDetails(){
+	public void createSeller(){
 		User user = new User();
 		user.setUserType(UserType.SELLER);
 		
 		Name name = new Name();
-		name.setFirstName("TestUserFirstName");
-		name.setLastName("TestUserLastName");
+		name.setFirstName(randomStringGenerator.randomString());
+		name.setLastName(randomStringGenerator.randomString());
 		user.setName(name);
 		
 		Address billingAddress = new Address();
@@ -71,7 +58,7 @@ public class UserDaoTest /*extends DaoTest*/ {
 		addresses.add(billingAddress);
 		user.setAddresses(addresses);
 		
-/*		Image image = new Image();
+		Image image = new Image();
 		image.setImageUrl("/resources/images/tshirt");
 		image.setName("Cotton T Shirt");
 		
@@ -106,17 +93,36 @@ public class UserDaoTest /*extends DaoTest*/ {
 		
 		Set<BankAccount> bankAccounts = new HashSet<BankAccount>();
 		bankAccounts.add(bankAccount);
-		user.setBankAccounts(bankAccounts);*/
-		entityManager.persist(user);
-		//entityManager.flush();
-		//userService.persist(user);
-		long userId = user.getId();
-		User persistedUser = userDao.getUser(userId);
-		Assert.assertEquals(user.getName().getFirstName(), persistedUser.getName().getFirstName());
-		logger.info(user.getId()+" " +user.getName().getFirstName());
-		for(Address address : addresses){
-			logger.info(address.getId()+" "+address.getUser().getName().getFirstName());
-		}
+		user.setBankAccounts(bankAccounts);
+		/*
+		 * CascadeType is ALL. Address, BankAccount, CreditCard are all persisted along with User.
+		 * */
+		userDao.persist(user);
+		entityManager.flush();
 		
+		User persistedUser = userDao.getUser(user.getId());
+		Assert.assertNotNull(persistedUser);
+		Assert.assertNotNull(persistedUser.getAddresses());
+		Assert.assertNotNull(persistedUser.getBankAccounts());
+		Assert.assertNotNull(persistedUser.getCreditCards());
+		Assert.assertNotNull(persistedUser.getSellingItems());
+		
+		logger.info("Details for the user: "+persistedUser.getName().getFirstName()+" "+
+				persistedUser.getName().getLastName()+" ID"+persistedUser.getId()+" Usertype: "+persistedUser.getUserType());
+		logger.info("Bank account details");
+		for(BankAccount bankAccountFromDataSource : persistedUser.getBankAccounts()){
+			logger.info("Account number: "+bankAccountFromDataSource.getAccountNumber()+" Bank name: "+
+							bankAccountFromDataSource.getBankName()+" Account ID: "+bankAccountFromDataSource.getId()+" Ownder ID"+bankAccountFromDataSource.getOwner().getId());
+		}
+		logger.info("Credit card details");
+		for(CreditCard creditCardFromDataSource : creditCards){
+			logger.info("Credit card number: "+creditCardFromDataSource.getCreditCardNumber()+" Expiry year"+creditCardFromDataSource.getEmpiryYear()+
+					" Expiry month: "+creditCardFromDataSource.getExpiryMonth()+" Owner ID"+creditCardFromDataSource.getOwner().getId());
+		}
+		for(Address addressFromDataSource : persistedUser.getAddresses()){
+			logger.info("Address ID: "+addressFromDataSource.getId()+" Address type:  "+addressFromDataSource.getAddressType() +
+					 " Owner ID"+addressFromDataSource.getUser().getId());
+		}
 	}
+	
 }
