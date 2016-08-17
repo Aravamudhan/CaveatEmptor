@@ -57,4 +57,27 @@ public class ItemDaoTest extends DaoTest {
 				persistedUser.getName().getLastName());
 	}
 	
+	public void removeItem(){
+		User seller = userDao.getUser(10000002);
+		logger.info(seller.getId()+" "+seller.getName().getFirstName()+" "+seller.getUserType());
+		Item item = new Item();
+		item.setSeller(seller);
+		item.setName(randomStringGenerator.randomString());
+		item.setInitialPrice(new BigDecimal(111));
+		item.setDescription("Random product!!");
+				
+		Set<Item> sellingItems = seller.getSellingItems();
+		sellingItems.add(item);
+		userDao.merge(seller);
+		entityManager.flush();
+		/*Checking the existence of items*/
+		User persistedSeller = userDao.getUser(10000002);
+		for(Item persistedItem : persistedSeller.getSellingItems()){
+			Assert.assertNotNull(persistedItem);
+		}
+		/*removing item*/
+		logger.info("Item details -  ID:"+item.getId());
+		itemDao.remove(item);
+	}
+	
 }
