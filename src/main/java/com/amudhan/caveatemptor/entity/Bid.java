@@ -1,5 +1,6 @@
 package com.amudhan.caveatemptor.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -24,7 +25,9 @@ import com.amudhan.caveatemptor.constant.BidQueries;
 })
 @Entity
 @Table(name="bid")
-public class Bid {
+public class Bid  implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="bid_sequence")
 	@SequenceGenerator(initialValue= 1, name="bid_sequence", allocationSize=1)

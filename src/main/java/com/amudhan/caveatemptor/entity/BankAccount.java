@@ -14,6 +14,8 @@ import com.amudhan.caveatemptor.constant.BankAccountQueries;
 @Entity
 @Table(name="bankaccount")
 public class BankAccount extends BillingDetails{
+	
+	private static final long serialVersionUID = 1L;
 	@Column(name="accountnumber")
 	@NotNull
 	private String accountNumber;

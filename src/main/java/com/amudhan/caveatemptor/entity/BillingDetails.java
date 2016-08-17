@@ -1,5 +1,7 @@
 package com.amudhan.caveatemptor.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +17,9 @@ import javax.validation.constraints.NotNull;
  * For the entities that extend this class, the mapping meta data present here will be applied.
  * **/
 @MappedSuperclass
-public abstract class BillingDetails {
+public abstract class BillingDetails implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="billing_detail_sequence")
 	@SequenceGenerator(initialValue= 1, name="billing_detail_sequence", allocationSize=1)

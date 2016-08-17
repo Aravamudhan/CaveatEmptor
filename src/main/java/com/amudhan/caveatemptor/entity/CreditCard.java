@@ -14,6 +14,8 @@ import com.amudhan.caveatemptor.constant.CreditCardQueries;
 @Entity
 @Table(name="creditcard")
 public class CreditCard extends BillingDetails{
+	
+	private static final long serialVersionUID = 1L;
 	@Column(name="creditcardnumber")
 	private String creditCardNumber;
 	@Column(name="expirymonth")

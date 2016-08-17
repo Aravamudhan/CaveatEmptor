@@ -1,5 +1,7 @@
 package com.amudhan.caveatemptor.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +23,9 @@ import com.amudhan.caveatemptor.constant.ImageQueries;
 })
 @Entity
 @Table(name="image")
-public class Image {
+public class Image implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="image_sequence")
 	@SequenceGenerator(initialValue= 1, name="image_sequence", allocationSize=1)

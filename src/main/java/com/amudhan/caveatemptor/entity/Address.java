@@ -1,5 +1,7 @@
 package com.amudhan.caveatemptor.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,9 @@ import com.amudhan.caveatemptor.constant.AddressQueries;
 })
 @Entity
 @Table(name="address")
-public class Address {
+public class Address implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="address_sequence")
 	@SequenceGenerator(initialValue= 1, name="address_sequence", allocationSize=1)
