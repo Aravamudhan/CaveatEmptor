@@ -8,14 +8,12 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.Test;
 
 import com.amudhan.caveatemptor.utils.RandomAlphaGenerator;
 
 /*
  * The methods in classes that extend this will be transactional.
  * */
-@Test
 @ContextConfiguration("classpath:configuration/applicationContext-core-test.xml")
 @TestExecutionListeners({TransactionalTestExecutionListener.class})
 @Transactional
