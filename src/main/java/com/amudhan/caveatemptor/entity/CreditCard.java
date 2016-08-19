@@ -34,10 +34,10 @@ public class CreditCard extends BillingDetails{
 	public void setExpiryMonth(String expiryMonth) {
 		this.expiryMonth = expiryMonth;
 	}
-	public String getEmpiryYear() {
+	public String getExpiryYear() {
 		return expiryYear;
 	}
-	public void setEmpiryYear(String expiryYear) {
+	public void setExpiryYear(String expiryYear) {
 		this.expiryYear = expiryYear;
 	}
 }

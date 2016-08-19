@@ -2,7 +2,7 @@ package com.amudhan.caveatemptor.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -39,9 +39,9 @@ public class Item implements Serializable{
 	@Column(name="initialprice", nullable=false)
 	private BigDecimal initialPrice;
 	@Column(name="auctionstart")
-	private Date auctionStart;
+	private LocalDateTime auctionStart;
 	@Column(name="auctionend")
-	private Date auctionEnd;
+	private LocalDateTime auctionEnd;
 	@Column(name="is_auction_ended")
 	private boolean isAuctionEnded;
 	@Column(name="is_auction_in_progress")
@@ -72,16 +72,16 @@ public class Item implements Serializable{
 	public void setInitialPrice(BigDecimal initialPrice) {
 		this.initialPrice = initialPrice;
 	}
-	public Date getAuctionEnd() {
+	public LocalDateTime getAuctionEnd() {
 		return auctionEnd;
 	}
-	public void setAuctionEnd(Date auctionEnd) {
+	public void setAuctionEnd(LocalDateTime auctionEnd) {
 		this.auctionEnd = auctionEnd;
 	}
-	public Date getAuctionStart() {
+	public LocalDateTime getAuctionStart() {
 		return auctionStart;
 	}
-	public void setAuctionStart(Date auctionStart) {
+	public void setAuctionStart(LocalDateTime auctionStart) {
 		this.auctionStart = auctionStart;
 	}
 	public boolean isAuctionEnded() {

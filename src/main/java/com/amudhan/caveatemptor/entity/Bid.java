@@ -2,7 +2,7 @@ package com.amudhan.caveatemptor.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +34,7 @@ public class Bid  implements Serializable {
 	@Column(name="amount", nullable=false)
 	private BigDecimal amount;
 	@Column(name="createdon", nullable=false)
-	private Date createdOn;
+	private LocalDateTime createdOn;
 	@Column(name="issuccess", columnDefinition="default 0")
 	private boolean isSuccess;
 	@ManyToOne
@@ -51,10 +51,10 @@ public class Bid  implements Serializable {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public Date getCreatedOn() {
+	public LocalDateTime getCreatedOn() {
 		return createdOn;
 	}
-	public void setCreatedOn(Date createdOn) {
+	public void setCreatedOn(LocalDateTime createdOn) {
 		this.createdOn = createdOn;
 	}
 	
