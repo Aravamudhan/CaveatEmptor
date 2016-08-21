@@ -15,4 +15,6 @@
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 		<property name="locations" value="classpath:/properties/test.properties"/>
     </bean>
+    <bean id="entities" class="com.amudhan.caveatemptor.test.common.Entities"/>
+    <bean id="validator" class="com.amudhan.caveatemptor.test.common.Validator"/>
 </beans>

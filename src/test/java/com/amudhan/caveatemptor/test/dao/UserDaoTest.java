@@ -1,10 +1,10 @@
 package com.amudhan.caveatemptor.test.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.amudhan.caveatemptor.dao.UserDao;
@@ -12,100 +12,24 @@ import com.amudhan.caveatemptor.entity.Address;
 import com.amudhan.caveatemptor.entity.BankAccount;
 import com.amudhan.caveatemptor.entity.Bid;
 import com.amudhan.caveatemptor.entity.CreditCard;
+import com.amudhan.caveatemptor.entity.Image;
 import com.amudhan.caveatemptor.entity.Item;
 import com.amudhan.caveatemptor.entity.User;
 import com.amudhan.caveatemptor.entity.User.UserType;
 import com.amudhan.caveatemptor.test.DaoTest;
 import com.amudhan.caveatemptor.test.common.Entities;
+import com.amudhan.caveatemptor.test.common.Validator;
 
 public class UserDaoTest extends DaoTest {
 
 	@Inject
 	private UserDao userDao;
-	private static final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
-	private final Entities entities = new Entities();
-	/*User test*/
-	public boolean checkPersistedSeller(User persistedUser){
-		Assert.assertNotNull(persistedUser);
-		logger.info("Details for the user: "+persistedUser.getName().getFirstName()+" "+
-				persistedUser.getName().getLastName()+" ID"+persistedUser.getId()+" Usertype: "+persistedUser.getUserType());
-		Assert.assertNotNull(persistedUser.getAddresses());
-		for(Address address : persistedUser.getAddresses()){
-			Assert.assertNotNull(address);
-			Assert.assertNotNull(address.getUser());
-			logger.info("Address details");
-			Assert.assertEquals(address.getUser().getId(), persistedUser.getId());
-			logger.info("Address ID: "+address.getId()+" Address type:  "+address.getAddressType() +
-					 " Owner ID"+address.getUser().getId());
-		}
-		Assert.assertNotNull(persistedUser.getCreditCards());
-		for(CreditCard creditCard : persistedUser.getCreditCards()){
-			Assert.assertNotNull(creditCard);
-			Assert.assertEquals(creditCard.getOwner().getId(), persistedUser.getId());
-			logger.info("Credit card details");
-			logger.info("Credit card number: "+creditCard.getCreditCardNumber()+" Expiry year"+creditCard.getExpiryYear()+
-					" Expiry month: "+creditCard.getExpiryMonth()+" Owner ID"+creditCard.getOwner().getId());
-		}
-		Assert.assertNotNull(persistedUser.getBankAccounts());
-		for(BankAccount bankAccount : persistedUser.getBankAccounts()){
-			Assert.assertNotNull(bankAccount);
-			Assert.assertEquals(bankAccount.getOwner().getId(), persistedUser.getId());
-			logger.info("Bank account details");
-			logger.info("Account number: "+bankAccount.getAccountNumber()+" Bank name: "+
-					bankAccount.getBankName()+" Account ID: "+bankAccount.getId()+" Ownder ID"+bankAccount.getOwner().getId());
-		}
-		Assert.assertNotNull(persistedUser.getSellingItems());
-		for(Item item : persistedUser.getSellingItems()){
-			Assert.assertNotNull(item);
-			Assert.assertNotNull(item.getImages());
-			Assert.assertNotNull(item.getCategory());
-			Assert.assertEquals(item.getSeller().getId(), persistedUser.getId());
-		}
-		Assert.assertNull(persistedUser.getBids());
-		return true;
-	}
-	public boolean checkPersistedBuyer(User persistedUser){
-		Assert.assertNotNull(persistedUser);
-		logger.info("Details for the user: "+persistedUser.getName().getFirstName()+" "+
-				persistedUser.getName().getLastName()+" ID"+persistedUser.getId()+" Usertype: "+persistedUser.getUserType());
-		Assert.assertNotNull(persistedUser.getAddresses());
-		for(Address address : persistedUser.getAddresses()){
-			Assert.assertNotNull(address);
-			Assert.assertNotNull(address.getUser());
-			logger.info("Address details");
-			Assert.assertEquals(address.getUser().getId(), persistedUser.getId());
-			logger.info("Address ID: "+address.getId()+" Address type:  "+address.getAddressType() +
-					 " Owner ID"+address.getUser().getId());
-		}
-		Assert.assertNotNull(persistedUser.getCreditCards());
-		for(CreditCard creditCard : persistedUser.getCreditCards()){
-			Assert.assertNotNull(creditCard);
-			Assert.assertEquals(creditCard.getOwner().getId(), persistedUser.getId());
-			logger.info("Credit card details");
-			logger.info("Credit card number: "+creditCard.getCreditCardNumber()+" Expiry year"+creditCard.getExpiryYear()+
-					" Expiry month: "+creditCard.getExpiryMonth()+" Owner ID"+creditCard.getOwner().getId());
-		}
-		Assert.assertNotNull(persistedUser.getBankAccounts());
-		for(BankAccount bankAccount : persistedUser.getBankAccounts()){
-			Assert.assertNotNull(bankAccount);
-			Assert.assertEquals(bankAccount.getOwner().getId(), persistedUser.getId());
-			logger.info("Bank account details");
-			logger.info("Account number: "+bankAccount.getAccountNumber()+" Bank name: "+
-					bankAccount.getBankName()+" Account ID: "+bankAccount.getId()+" Ownder ID"+bankAccount.getOwner().getId());
-		}
-		Assert.assertNotNull(persistedUser.getBids());
-		for(Bid bid : persistedUser.getBids()){
-			Assert.assertNotNull(bid);
-			Assert.assertEquals(bid.getBidder().getId(), persistedUser.getId());
-			/*logger.info("Bid details");
-			logger.info(bid.getId()+" "+bid.getItem().getName());*/
-		}
-		Assert.assertNull(persistedUser.getSellingItems());
-		return true;
-	}
+	@Inject
+	private Entities entities;
+	@Inject
+	private Validator validator;
 	
 	/*TC1: Create seller"*/
-	//TODO: Check the generated queries.
 	@Test
 	public void createSeller(){
 		User seller = entities.getSeller();
@@ -114,16 +38,119 @@ public class UserDaoTest extends DaoTest {
 		 * 
 		 * */
 		userDao.persist(seller);
+		entityManager.flush();
 		User persistedUser = userDao.getUser(seller.getId());
-		checkPersistedSeller(persistedUser);
+		validator.checkPersistedSeller(persistedUser);
 	}
-	/*TC3: Remove seller*/
+	/*TC2: Remove seller*/
+	@Test
+	public void removeSeller(){
+		User seller = entities.getSeller();
+		userDao.persist(seller);
+		entityManager.persist(seller);
+		entityManager.flush();
+		User persistedUser = userDao.getUser(seller.getId());
+		boolean persisted = validator.checkPersistedSeller(persistedUser);
+		List<Long> addressIds = new ArrayList<Long>();
+		for(Address address : persistedUser.getAddresses()){
+			addressIds.add(address.getId());
+		}
+		List<Long> itemIds = new ArrayList<Long>();
+		List<Long> imageIds = new ArrayList<Long>();
+		List<Long> bidIds = new ArrayList<Long>();
+		for(Item item : persistedUser.getSellingItems()){
+			itemIds.add(item.getId());
+			for(Image image : item.getImages()){
+				imageIds.add(image.getId());
+			}
+			for(Bid bid : item.getBids()){
+				bidIds.add(bid.getId());
+			}
+		}
+		List<Long> creditCardIds = new ArrayList<Long>();
+		for(CreditCard creditCard : seller.getCreditCards()){
+			creditCardIds.add(creditCard.getId());
+		}
+		List<Long> bankAccountIds = new ArrayList<Long>();
+		for(BankAccount bankAccount : seller.getBankAccounts()){
+			bankAccountIds.add(bankAccount.getId());
+		}
+		if(persisted){
+			userDao.remove(seller);
+			entityManager.flush();
+			validator.checkRemovedUser(persistedUser.getId());
+			for(long id : addressIds){
+				validator.checkRemovedAddress(id);
+			}
+			for(long id : itemIds){
+				validator.checkRemovedItem(id);
+			}
+			for(long id : imageIds){
+				validator.checkRemovedImage(id);
+			}
+			for(long id : creditCardIds){
+				validator.checkRemovedCreditCard(id);
+			}
+			for(long id : bankAccountIds){
+				validator.checkRemovedBankAccount(id);
+			}
+			for(long id : bidIds){
+				validator.checkRemovedBid(id);
+			}
+		}
+	}
+	/*TC3: Create buyer*/
 	@Test
 	public void createBuyer(){
 		User buyer = entities.getBuyer();
 		buyer.setUserType(UserType.BUYER);
 		userDao.persist(buyer);
+		entityManager.flush();
 		User persistedUser = userDao.getUser(buyer.getId());
-		checkPersistedBuyer(persistedUser);
+		validator.checkPersistedBuyer(persistedUser);
 	}
+	/*TC4: Remove buyer*/
+	@Test
+	public void removeBuyer(){
+		User buyer = entities.getBuyer();
+		userDao.persist(buyer);
+		entityManager.persist(buyer);
+		entityManager.flush();
+		User persistedUser = userDao.getUser(buyer.getId());
+		boolean persisted = validator.checkPersistedBuyer(persistedUser);
+		List<Long> addressIds = new ArrayList<Long>();
+		for(Address address : persistedUser.getAddresses()){
+			addressIds.add(address.getId());
+		}
+		List<Long> bidIds = new ArrayList<Long>();
+		for(Bid bid : buyer.getBids()){
+			bidIds.add(bid.getId());
+		}
+		List<Long> creditCardIds = new ArrayList<Long>();
+		for(CreditCard creditCard : buyer.getCreditCards()){
+			creditCardIds.add(creditCard.getId());
+		}
+		List<Long> bankAccountIds = new ArrayList<Long>();
+		for(BankAccount bankAccount : buyer.getBankAccounts()){
+			bankAccountIds.add(bankAccount.getId());
+		}
+		if(persisted){
+			userDao.remove(buyer);
+			entityManager.flush();
+			validator.checkRemovedUser(persistedUser.getId());
+			for(long id : addressIds){
+				validator.checkRemovedAddress(id);
+			}
+			for(long id : bidIds){
+				validator.checkRemovedBid(id);
+			}
+			for(long id : creditCardIds){
+				validator.checkRemovedCreditCard(id);
+			}
+			for(long id : bankAccountIds){
+				validator.checkRemovedBankAccount(id);
+			}
+		}
+	}
+
 }

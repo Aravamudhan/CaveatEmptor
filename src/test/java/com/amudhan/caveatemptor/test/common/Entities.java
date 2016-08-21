@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import com.amudhan.caveatemptor.entity.Address;
 import com.amudhan.caveatemptor.entity.Address.AddressType;
 import com.amudhan.caveatemptor.entity.BankAccount;
@@ -16,11 +18,24 @@ import com.amudhan.caveatemptor.entity.Item;
 import com.amudhan.caveatemptor.entity.Name;
 import com.amudhan.caveatemptor.entity.User;
 import com.amudhan.caveatemptor.entity.User.UserType;
+import com.amudhan.caveatemptor.service.CategoryService;
+import com.amudhan.caveatemptor.service.ItemService;
+import com.amudhan.caveatemptor.service.UserService;
 import com.amudhan.caveatemptor.utils.RandomAlphaGenerator;
 
 public class Entities {
+
+	@Inject
+	private ItemService itemService;
+	@Inject
+	private CategoryService categoryService;
+	@Inject
+	private UserService userService;
 	private final RandomAlphaGenerator randomAlphaGenerator = new RandomAlphaGenerator();
 	/*Common method that returns a fully initialized Seller*/
+	/*Addresses, CreditCards, BankAccounts, Items are added to the Seller.
+	 * Bids and Images are added to Item.
+	 * All entities are dynamically generated except the bidder(User) that is added to the Item#bids#Bid*/
 	public User getSeller(){
 		User seller = new User();
 		Name name = new Name();
@@ -29,17 +44,18 @@ public class Entities {
 		seller.setName(name);
 		Item item = getItem();
 		Image image = getImage();
+		Bid bid = getBid();
 		Address billingAddress = getAddress();
 		Address shippingAddress = getAddress();
 		CreditCard creditCard = getCreditCard();
 		BankAccount bankAccount = getBankAccount();
-		Category category = getCategory();
+		Category category = categoryService.getCategory(10000001);
 		Set<Item> sellingItems = new HashSet<Item>();
 		Set<Image> images = new HashSet<Image>();
 		Set<Address> addresses = new HashSet<Address>();
 		Set<CreditCard> creditCards = new HashSet<CreditCard>();
 		Set<BankAccount> bankAccounts = new HashSet<BankAccount>();
-
+		Set<Bid> bids = new HashSet<Bid>();
 		billingAddress.setAddressType(AddressType.BILLING);
 		billingAddress.setUser(seller);
 		shippingAddress.setAddressType(AddressType.SHIPPING);
@@ -53,16 +69,22 @@ public class Entities {
 		seller.setAddresses(addresses);
 		seller.setCreditCards(creditCards);
 		seller.setBankAccounts(bankAccounts);
+		image.setItem(item);
 		images.add(image);
+		bid.setBidder(userService.getUser(10000001));
+		bid.setItem(item);
+		bids.add(bid);
 		seller.setUserType(UserType.SELLER);
 		item.setSeller(seller);
 		item.setImages(images);
 		item.setCategory(category);
+		item.setBids(bids);
 		sellingItems.add(item);
 		seller.setSellingItems(sellingItems);
 		return seller;
 	}
 	/*Common method that returns a fully initialized Buyer*/
+	/*All entities are newly created except Item*/
 	public User getBuyer(){
 		User buyer = new User();
 		Name name = new Name();
@@ -78,7 +100,6 @@ public class Entities {
 		Set<CreditCard> creditCards = new HashSet<CreditCard>();
 		Set<BankAccount> bankAccounts = new HashSet<BankAccount>();
 		Set<Bid> bids = new HashSet<Bid>();
-
 		billingAddress.setAddressType(AddressType.BILLING);
 		billingAddress.setUser(buyer);
 		shippingAddress.setAddressType(AddressType.SHIPPING);
@@ -89,8 +110,10 @@ public class Entities {
 		bankAccount.setOwner(buyer);
 		creditCards.add(creditCard);
 		bankAccounts.add(bankAccount);
+		bid.setItem(itemService.getItem(10000001));
 		bids.add(bid);
 		bid.setBidder(buyer);
+		buyer.setUserType(UserType.BUYER);
 		buyer.setAddresses(addresses);
 		buyer.setCreditCards(creditCards);
 		buyer.setBankAccounts(bankAccounts);

@@ -1,5 +1,7 @@
 package com.amudhan.caveatemptor.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +26,16 @@ public class CreditCardServiceImpl implements CreditCardService {
 	@Override
 	public void remove(CreditCard creditCard) {
 		creditCardDao.remove(creditCard);
+	}
+
+	@Override
+	public CreditCard getCreditCard(long id) {
+		return creditCardDao.getCreditCard(id);
+	}
+
+	@Override
+	public List<CreditCard> getCreditCards() {
+		return creditCardDao.getCreditCards();
 	}
 
 }

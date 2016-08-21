@@ -1,5 +1,7 @@
 package com.amudhan.caveatemptor.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +18,16 @@ public class BankAccountServiceImpl implements BankAccountService {
 	@Inject
 	private BankAccountDao bankAccountDao;
 	
+	@Override
+	public BankAccount getBankAccount(long id) {
+		return bankAccountDao.getBankAccount(id);
+	}
+
+	@Override
+	public List<BankAccount> getBankAccounts() {
+		return bankAccountDao.getBankAccounts();
+	}
+
 	@Override
 	public void persist(BankAccount bankAccount) {
 		bankAccountDao.persist(bankAccount);
