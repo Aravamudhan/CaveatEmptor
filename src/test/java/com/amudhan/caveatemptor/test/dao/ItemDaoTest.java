@@ -105,14 +105,12 @@ public class ItemDaoTest extends DaoTest {
 		for(Image image : item.getImages()){
 			imageIds.add(image.getId());
 		}
+		seller.getSellingItems().remove(item);
 		itemDao.remove(item);
 		entityManager.flush();
 	    validator.checkRemovedItem(item.getId());
 		for(long id : bidIds){
 			validator.checkRemovedBid(id);
-		}
-		for(Bid bid : item.getBids()){
-			validator.checkRemovedBid(bid.getId());
 		}
 		for(long id : imageIds){
 			validator.checkRemovedImage(id);
