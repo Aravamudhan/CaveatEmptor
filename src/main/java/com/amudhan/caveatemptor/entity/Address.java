@@ -92,10 +92,4 @@ public class Address implements Serializable {
 	private void setId(long id) {
 		this.id = id;
 	}
-	@Override
-	public String toString() {
-		return "Address [id=" + id + ", building=" + building + ", street="
-				+ street + ", zipcode=" + zipCode + ", city=" + city
-				+ ", addressType=" + addressType + ", user=" + user + "]";
-	}
 }

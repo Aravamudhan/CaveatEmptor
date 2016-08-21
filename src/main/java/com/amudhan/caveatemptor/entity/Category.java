@@ -59,9 +59,4 @@ public class Category {
 	private void setId(long id) {
 		this.id = id;
 	}
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", parent=" + parent
-				+ ", items=" + items + "]";
-	}
 }
