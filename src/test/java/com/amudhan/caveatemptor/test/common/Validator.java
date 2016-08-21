@@ -141,6 +141,22 @@ public class Validator {
 		}
 		return true;
 	}
+	public boolean checkPersistedBid(Bid bid){
+		Assert.assertNotNull(bid);
+		Assert.assertNotNull(bid.getBidder());
+		Assert.assertNotNull(bid.getItem());
+		logger.info("Bid details: Bid ID: "+bid.getId()+" Bidder ID "+bid.getBidder().getId()+
+				" Bidder name "+bid.getBidder().getName().getFirstName()+" "+bid.getBidder().getName().getLastName());
+		logger.info("Bidded item ID :"+bid.getItem().getId()+" Item name "+bid.getItem().getName());
+		return true;
+	}
+	public boolean checkPersistedImage(Image image){
+		Assert.assertNotNull(image);
+		Assert.assertNotNull(image.getItem());
+		logger.info("Image ID :"+image.getId()+" Image name "+image.getName()+" Item ID: "+image.getItem().getId()+" "+
+					image.getItem().getName());
+		return true;
+	}
 	public boolean checkRemovedUser(long id){
 		User user = userService.getUser(id);
 		Assert.assertNull(user);

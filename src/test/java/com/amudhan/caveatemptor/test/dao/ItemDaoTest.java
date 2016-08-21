@@ -91,6 +91,7 @@ public class ItemDaoTest extends DaoTest {
 		validator.checkPersistedItem(persistedItemTwo);
 	}
 	/*TC7: Remove Item*/
+	/*Create an item, remove and validate*/
 	@Test
 	public void removeItem(){
 		User seller = entities.getSeller();
@@ -105,6 +106,8 @@ public class ItemDaoTest extends DaoTest {
 		for(Image image : item.getImages()){
 			imageIds.add(image.getId());
 		}
+		/*Since User#sellingItems has Cascade.ALL, any item that is present in the sellingItems
+		 * must to be cleaned explicitly before calling remove on that item. Otherwise the item will not be removed.*/
 		seller.getSellingItems().remove(item);
 		itemDao.remove(item);
 		entityManager.flush();
@@ -117,9 +120,106 @@ public class ItemDaoTest extends DaoTest {
 		}
 	}
 	/*TC8: Remove all items*/
+	/*Assign more than one item to a seller. Remove them all and validate*/
 	@Test
 	public void removeAllItems(){
-		
+		User seller = entities.getSeller();
+		Item itemOne = entities.getItem();
+		Item itemTwo = entities.getItem();
+		Bid bidOne = entities.getBid();
+		bidOne.setItem(itemOne);
+		bidOne.setBidder(entities.getBuyer());
+		Image imageOne = entities.getImage();
+		imageOne.setItem(itemOne);
+		itemOne.setSeller(seller);
+		Set<Image> images = new HashSet<Image>();
+		images.add(imageOne);
+		itemOne.setImages(images);
+		Set<Bid> bidsOne = new HashSet<Bid>();
+		itemOne.setBids(bidsOne);
+		Bid bidTwo = entities.getBid();
+		bidTwo.setItem(itemTwo);
+		bidTwo.setBidder(entities.getBuyer());
+		Image imageTwo = entities.getImage();
+		imageTwo.setItem(itemTwo);
+		itemTwo.setSeller(seller);
+		Set<Image> imagesTwo = new HashSet<Image>();
+		images.add(imageTwo);
+		itemTwo.setImages(imagesTwo);
+		Set<Bid> bidsTwo = new HashSet<Bid>();
+		itemTwo.setBids(bidsTwo);
+		seller.getSellingItems().add(itemOne);
+		seller.getSellingItems().add(itemTwo);
+		userDao.persist(seller);
+		entityManager.flush();
+		seller.getSellingItems().clear();
+		itemDao.remove(itemOne);
+		itemDao.remove(itemTwo);
+		entityManager.flush();
+		validator.checkRemovedItem(itemOne.getId());
+		validator.checkRemovedItem(itemTwo.getId());
+		for(Bid removedBid : itemOne.getBids()){
+			validator.checkRemovedBid(removedBid.getId());
+		}
+		for(Bid removedBid : itemTwo.getBids()){
+			validator.checkRemovedBid(removedBid.getId());
+		}
+		for(Image image : itemOne.getImages()){
+			validator.checkRemovedImage(image.getId());
+		}
+		for(Image image : itemTwo.getImages()){
+			validator.checkRemovedImage(image.getId());
+		}
+	}
+	/*TC9: Remove a particular item*/
+	@Test
+	public void removeParticularItem(){
+		User seller = entities.getSeller();
+		Item itemOne = entities.getItem();
+		Item itemTwo = entities.getItem();
+		Bid bidOne = entities.getBid();
+		bidOne.setItem(itemOne);
+		bidOne.setBidder(entities.getBuyer());
+		Image imageOne = entities.getImage();
+		imageOne.setItem(itemOne);
+		itemOne.setSeller(seller);
+		Set<Image> images = new HashSet<Image>();
+		images.add(imageOne);
+		itemOne.setImages(images);
+		Set<Bid> bidsOne = new HashSet<Bid>();
+		itemOne.setBids(bidsOne);
+		Bid bidTwo = entities.getBid();
+		bidTwo.setItem(itemTwo);
+		bidTwo.setBidder(entities.getBuyer());
+		Image imageTwo = entities.getImage();
+		imageTwo.setItem(itemTwo);
+		itemTwo.setSeller(seller);
+		Set<Image> imagesTwo = new HashSet<Image>();
+		images.add(imageTwo);
+		itemTwo.setImages(imagesTwo);
+		Set<Bid> bidsTwo = new HashSet<Bid>();
+		itemTwo.setBids(bidsTwo);
+		seller.getSellingItems().add(itemOne);
+		seller.getSellingItems().add(itemTwo);
+		userDao.persist(seller);
+		entityManager.flush();
+		seller.getSellingItems().remove(itemOne);
+		itemDao.remove(itemOne);
+		entityManager.flush();
+		validator.checkRemovedItem(itemOne.getId());
+		validator.checkPersistedItem(itemTwo);
+		for(Bid removedBid : itemOne.getBids()){
+			validator.checkRemovedBid(removedBid.getId());
+		}
+		for(Bid persistedBid : itemTwo.getBids()){
+			validator.checkPersistedBid(persistedBid);
+		}
+		for(Image removedImage : itemOne.getImages()){
+			validator.checkRemovedImage(removedImage.getId());
+		}
+		for(Image persistedImage : itemTwo.getImages()){
+			validator.checkPersistedImage(persistedImage);
+		}
 	}
 	
 }
