@@ -2,6 +2,8 @@ package com.amudhan.caveatemptor.test.dao;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import com.amudhan.caveatemptor.dao.UserDao;
@@ -19,7 +21,7 @@ public class UserDaoTest extends DaoTest {
 	private Entities entities;
 	@Inject
 	private Validator validator;
-	
+	private static final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
 	/*TC1: Create seller"*/
 	@Test
 	public void createSeller(){
