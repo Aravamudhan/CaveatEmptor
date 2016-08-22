@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import com.amudhan.caveatemptor.dao.ItemDao;
@@ -27,19 +29,24 @@ public class ItemDaoTest extends DaoTest {
 	private Entities entities;
 	@Inject
 	private Validator validator;
-
+	private static final Logger logger = LoggerFactory.getLogger(ItemDaoTest.class);
 	/*TC5: Create Item*/
 	@Test
 	public void createItem(){
 		/*A User is necessary for the creation of an item*/
+		logger.info("createItem starting--------------------------------------------");
 		User seller = entities.getSeller();
 		Item item = entities.getItem();
-		item.setSeller(seller);
 		Bid bid = entities.getBid();
 		bid.setItem(item);
-		Set<Bid> bids = new HashSet<Bid>();
-		bids.add(bid);
 		bid.setBidder(entities.getBuyer());
+		Image image = entities.getImage();
+		image.setItem(item);
+		item.setSeller(seller);
+		Set<Image> images = new HashSet<Image>();
+		images.add(image);
+		item.setImages(images);
+		Set<Bid> bids = new HashSet<Bid>();
 		item.setBids(bids);
 		seller.getSellingItems().add(item);
 		userDao.persist(seller);
@@ -50,6 +57,7 @@ public class ItemDaoTest extends DaoTest {
 	/*TC6: Create multiple items*/
 	@Test
 	public void createMultipleItems(){
+		logger.info("createMultipleItems starting--------------------------------------------");
 		User seller = entities.getSeller();
 		Item itemOne = entities.getItem();
 		Item itemTwo = entities.getItem();
@@ -78,9 +86,6 @@ public class ItemDaoTest extends DaoTest {
 		seller.getSellingItems().add(itemOne);
 		seller.getSellingItems().add(itemTwo);
 		userDao.persist(seller);
-		seller.getSellingItems().add(itemOne);
-		seller.getSellingItems().add(itemTwo);
-		userDao.persist(seller);
 		entityManager.flush();
 		Item persistedItemOne = itemDao.getItem(itemOne.getId());
 		Item persistedItemTwo = itemDao.getItem(itemTwo.getId());
@@ -91,6 +96,7 @@ public class ItemDaoTest extends DaoTest {
 	/*Create an item, remove and validate*/
 	@Test
 	public void removeItem(){
+		logger.info("removeItem starting--------------------------------------------");
 		User seller = entities.getSeller();
 		Item item = seller.getSellingItems().iterator().next();
 		userDao.persist(seller);
@@ -106,6 +112,7 @@ public class ItemDaoTest extends DaoTest {
 	/*Assign more than one item to a seller. Remove them all and validate*/
 	@Test
 	public void removeAllItems(){
+		logger.info("removeAllItems starting--------------------------------------------");
 		User seller = entities.getSeller();
 		Item itemOne = entities.getItem();
 		Item itemTwo = entities.getItem();
@@ -145,6 +152,7 @@ public class ItemDaoTest extends DaoTest {
 	/*TC9: Remove a particular item*/
 	@Test
 	public void removeParticularItem(){
+		logger.info("removeParticularItem starting--------------------------------------------");
 		User seller = entities.getSeller();
 		Item itemOne = entities.getItem();
 		Item itemTwo = entities.getItem();

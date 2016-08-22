@@ -23,6 +23,7 @@ public class UserDaoTest extends DaoTest {
 	/*TC1: Create seller"*/
 	@Test
 	public void createSeller(){
+		logger.info("createSeller starting--------------------------------------------");
 		User seller = entities.getSeller();
 		/*
 		 * CascadeType is ALL. Address, BankAccount, CreditCard, Item, Image are all persisted along with User.
@@ -36,9 +37,9 @@ public class UserDaoTest extends DaoTest {
 	/*TC2: Remove seller*/
 	@Test
 	public void removeSeller(){
+		logger.info("removeSeller starting--------------------------------------------");
 		User seller = entities.getSeller();
 		userDao.persist(seller);
-		entityManager.persist(seller);
 		entityManager.flush();
 		User persistedSeller = userDao.getUser(seller.getId());
 		userDao.remove(seller);
@@ -48,6 +49,7 @@ public class UserDaoTest extends DaoTest {
 	/*TC3: Create buyer*/
 	@Test
 	public void createBuyer(){
+		logger.info("createBuyer starting--------------------------------------------");
 		User buyer = entities.getBuyer();
 		buyer.setUserType(UserType.BUYER);
 		userDao.persist(buyer);
@@ -58,9 +60,9 @@ public class UserDaoTest extends DaoTest {
 	/*TC4: Remove buyer*/
 	@Test
 	public void removeBuyer(){
+		logger.info("removeBuyer starting--------------------------------------------");
 		User buyer = entities.getBuyer();
 		userDao.persist(buyer);
-		entityManager.persist(buyer);
 		entityManager.flush();
 		User persistedBuyer = userDao.getUser(buyer.getId());
 		userDao.remove(buyer);

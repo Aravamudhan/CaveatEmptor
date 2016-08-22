@@ -78,7 +78,7 @@ public class Validator {
 		logger.info("Item details: Item ID: "+persistedItem.getId()+" Item name: "+persistedItem.getName());
 		User seller = persistedItem.getSeller();
 		Assert.assertNotNull(seller);
-		logger.info("Seller details: Seller ID: "+seller.getId()+" Seller Name: "+seller.getName());
+		logger.info("Seller details: Seller ID: "+seller.getId()+" Seller Name: "+seller.getName().getFirstName()+""+seller.getName().getLastName());
 		Assert.assertNotNull(persistedItem.getBids());
 		for(Bid bid : persistedItem.getBids()){
 			logger.info("Bid details: Bid ID "+bid.getId()+" Bidder ID: "+bid.getBidder().getId()+" Bidder name: "+
