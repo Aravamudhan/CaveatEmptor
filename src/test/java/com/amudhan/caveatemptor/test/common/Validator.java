@@ -14,6 +14,7 @@ import com.amudhan.caveatemptor.entity.CreditCard;
 import com.amudhan.caveatemptor.entity.Image;
 import com.amudhan.caveatemptor.entity.Item;
 import com.amudhan.caveatemptor.entity.User;
+import com.amudhan.caveatemptor.entity.User.UserType;
 import com.amudhan.caveatemptor.service.AddressService;
 import com.amudhan.caveatemptor.service.BankAccountService;
 import com.amudhan.caveatemptor.service.BidService;
@@ -43,85 +44,33 @@ public class Validator {
 	private BidService bidService;
 	private static final Logger logger = LoggerFactory.getLogger(Validator.class);
 	
-	public boolean checkPersistedSeller(User persistedUser){
+	public boolean checkPersistedUser(User persistedUser){
 		Assert.assertNotNull(persistedUser);
+		Assert.assertNotNull(persistedUser.getUserType());
 		logger.info("Details for the user: "+persistedUser.getName().getFirstName()+" "+
 				persistedUser.getName().getLastName()+" ID"+persistedUser.getId()+" Usertype: "+persistedUser.getUserType());
 		Assert.assertNotNull(persistedUser.getAddresses());
 		for(Address address : persistedUser.getAddresses()){
-			Assert.assertNotNull(address);
-			Assert.assertNotNull(address.getUser());
-			logger.info("Address details");
-			Assert.assertEquals(address.getUser().getId(), persistedUser.getId());
-			logger.info("Address ID: "+address.getId()+" Address type:  "+address.getAddressType() +
-					 " Owner ID"+address.getUser().getId());
+			checkPersistedAddress(address);
 		}
 		Assert.assertNotNull(persistedUser.getCreditCards());
 		for(CreditCard creditCard : persistedUser.getCreditCards()){
-			Assert.assertNotNull(creditCard);
-			Assert.assertEquals(creditCard.getOwner().getId(), persistedUser.getId());
-			logger.info("Credit card details");
-			logger.info("Credit card number: "+creditCard.getCreditCardNumber()+" Expiry year"+creditCard.getExpiryYear()+
-					" Expiry month: "+creditCard.getExpiryMonth()+" Owner ID"+creditCard.getOwner().getId());
+			checkPersistedCreditCard(creditCard);
 		}
 		Assert.assertNotNull(persistedUser.getBankAccounts());
 		for(BankAccount bankAccount : persistedUser.getBankAccounts()){
-			Assert.assertNotNull(bankAccount);
-			Assert.assertEquals(bankAccount.getOwner().getId(), persistedUser.getId());
-			logger.info("Bank account details");
-			logger.info("Account number: "+bankAccount.getAccountNumber()+" Bank name: "+
-					bankAccount.getBankName()+" Account ID: "+bankAccount.getId()+" Ownder ID"+bankAccount.getOwner().getId());
+			checkPersistedBankAccount(bankAccount);
 		}
-		Assert.assertNotNull(persistedUser.getSellingItems());
-		for(Item item : persistedUser.getSellingItems()){
-			Assert.assertNotNull(item);
-			Assert.assertNotNull(item.getImages());
-			Assert.assertNotNull(item.getCategory());
-			Assert.assertEquals(item.getSeller().getId(), persistedUser.getId());
-			logger.info("Item details");
-			logger.info("Item ID: "+item.getId()+" "+item.getName()+" Category ID "+item.getCategory().getId()+
-					" Category name: "+item.getCategory().getName());
+		if(persistedUser.getUserType().equals(UserType.SELLER)){
+			for(Item item : persistedUser.getSellingItems()){
+				checkPersistedItem(item);
+			}
+		}else if(persistedUser.getUserType().equals(UserType.BUYER)){
+			for(Bid bid : persistedUser.getBids()){
+				checkPersistedBid(bid);
+			}
 		}
-		Assert.assertNull(persistedUser.getBids());
-		return true;
-	}
-	public boolean checkPersistedBuyer(User persistedUser){
-		Assert.assertNotNull(persistedUser);
-		logger.info("Details for the user: "+persistedUser.getName().getFirstName()+" "+
-				persistedUser.getName().getLastName()+" ID"+persistedUser.getId()+" Usertype: "+persistedUser.getUserType());
-		Assert.assertNotNull(persistedUser.getAddresses());
-		for(Address address : persistedUser.getAddresses()){
-			Assert.assertNotNull(address);
-			Assert.assertNotNull(address.getUser());
-			logger.info("Address details");
-			Assert.assertEquals(address.getUser().getId(), persistedUser.getId());
-			logger.info("Address ID: "+address.getId()+" Address type:  "+address.getAddressType() +
-					 " Owner ID"+address.getUser().getId());
-		}
-		Assert.assertNotNull(persistedUser.getCreditCards());
-		for(CreditCard creditCard : persistedUser.getCreditCards()){
-			Assert.assertNotNull(creditCard);
-			Assert.assertEquals(creditCard.getOwner().getId(), persistedUser.getId());
-			logger.info("Credit card details");
-			logger.info("Credit card number: "+creditCard.getCreditCardNumber()+" Expiry year"+creditCard.getExpiryYear()+
-					" Expiry month: "+creditCard.getExpiryMonth()+" Owner ID"+creditCard.getOwner().getId());
-		}
-		Assert.assertNotNull(persistedUser.getBankAccounts());
-		for(BankAccount bankAccount : persistedUser.getBankAccounts()){
-			Assert.assertNotNull(bankAccount);
-			Assert.assertEquals(bankAccount.getOwner().getId(), persistedUser.getId());
-			logger.info("Bank account details");
-			logger.info("Account number: "+bankAccount.getAccountNumber()+" Bank name: "+
-					bankAccount.getBankName()+" Account ID: "+bankAccount.getId()+" Ownder ID"+bankAccount.getOwner().getId());
-		}
-		Assert.assertNotNull(persistedUser.getBids());
-		for(Bid bid : persistedUser.getBids()){
-			Assert.assertNotNull(bid);
-			Assert.assertEquals(bid.getBidder().getId(), persistedUser.getId());
-			logger.info("Bid details");
-			logger.info("Bid ID: "+bid.getId()+" "+bid.getItem().getName());
-		}
-		Assert.assertNull(persistedUser.getSellingItems());
+		
 		return true;
 	}
 	public boolean checkPersistedItem(Item persistedItem){
@@ -157,45 +106,99 @@ public class Validator {
 					image.getItem().getName());
 		return true;
 	}
-	public boolean checkRemovedUser(long id){
-		User user = userService.getUser(id);
+	public boolean checkPersistedAddress(Address address){
+		Assert.assertNotNull(address);
+		Assert.assertNotNull(address.getUser());
+		logger.info("Address details");
+		logger.info("Address ID: "+address.getId()+" Address type:  "+address.getAddressType() +
+				 " Owner ID"+address.getUser().getId()+" Owner name "+address.getUser().getName().getFirstName()+
+				 " "+address.getUser().getName().getLastName() );
+		return true;
+	}
+	public boolean checkPersistedCreditCard(CreditCard creditCard){
+		Assert.assertNotNull(creditCard);
+		logger.info("Credit card details");
+		logger.info("Credit card number: "+creditCard.getCreditCardNumber()+" Expiry year"+creditCard.getExpiryYear()+
+				" Expiry month: "+creditCard.getExpiryMonth()+" Owner ID"+creditCard.getOwner().getId()+
+				" Owner name "+creditCard.getOwner().getName().getFirstName()+" "+creditCard.getOwner().getName().getLastName());
+		return true;
+	}
+	public boolean checkPersistedBankAccount(BankAccount bankAccount){
+		Assert.assertNotNull(bankAccount);
+		logger.info("Bank account details");
+		logger.info("Account number: "+bankAccount.getAccountNumber()+" Bank name: "+
+				bankAccount.getBankName()+" Account ID: "+bankAccount.getId()+" Owner ID"+bankAccount.getOwner().getId()+
+				" Owner name "+bankAccount.getOwner().getName().getFirstName()+" "+bankAccount.getOwner().getName().getLastName());
+		return true;
+	}
+	public boolean checkRemovedUser(User removedUser){
+		User user = userService.getUser(removedUser.getId());
 		Assert.assertNull(user);
+		if(removedUser.getUserType().equals(UserType.SELLER)){
+			if(removedUser.getSellingItems()!=null){
+				for(Item item : removedUser.getSellingItems()){
+					checkRemovedItem(item);
+				}
+			}
+		}else if(removedUser.getUserType().equals(UserType.BUYER)){
+			if(removedUser.getBids()!=null){
+				for(Bid bid : removedUser.getBids()){
+					checkRemovedBid(bid);
+				}
+			}
+		}
+		for(Address address : removedUser.getAddresses()){
+			checkRemovedAddress(address);
+		}
+		for(CreditCard creditCard : removedUser.getCreditCards()){
+			checkRemovedCreditCard(creditCard);
+		}
+		for(BankAccount bankAccount : removedUser.getBankAccounts()){
+			checkRemovedBankAccount(bankAccount);
+		}
+		
 		return true;
 	}
-	public boolean checkRemovedItem(long id){
-		Item item = itemService.getItem(id);
+	public boolean checkRemovedItem(Item removedItem){
+		Item item = itemService.getItem(removedItem.getId());
 		Assert.assertNull(item);
+		for(Bid bid : removedItem.getBids()){
+			checkRemovedBid(bid);
+		}
+		for(Image image : removedItem.getImages()){
+			checkRemovedImage(image);
+		}
 		return true;
 	}
-	public boolean checkRemovedImage(long id){
-		Image image = imageService.getImage(id);
+	public boolean checkRemovedImage(Image removedImage){
+		Image image = imageService.getImage(removedImage.getId());
 		Assert.assertNull(image);
 		return true;
 	}
-	public boolean checkRemovedAddress(long id)
+	public boolean checkRemovedAddress(Address removedAddress)
 	{
-		Address address = addressService.getAddress(id);
+		Address address = addressService.getAddress(removedAddress.getId());
 		Assert.assertNull(address);
 		return true;
 	}
-	public boolean checkRemovedCreditCard(long id)
+	public boolean checkRemovedCreditCard(CreditCard removedCreditCard)
 	{
-		CreditCard creditCard = creditCardService.getCreditCard(id);
+		CreditCard creditCard = creditCardService.getCreditCard(removedCreditCard.getId());
 		Assert.assertNull(creditCard);
 		return true;
 	}
-	public boolean checkRemovedBankAccount(long id){
-		BankAccount bankAccount = bankAccountService.getBankAccount(id);
+	public boolean checkRemovedBankAccount(BankAccount removedBankAccount){
+		BankAccount bankAccount = bankAccountService.getBankAccount(removedBankAccount.getId());
 		Assert.assertNull(bankAccount);
 		return true;
 	}
-	public boolean checkRemovedCategory(long id){
-		Category category = categoryService.getCategory(id);
+	public boolean checkRemovedCategory(Category removedCategory){
+		Category category = categoryService.getCategory(removedCategory.getId());
 		Assert.assertNull(category);
 		return true;
 	}
-	public boolean checkRemovedBid(long id){
-		Bid bid = bidService.getBid(id);
+	public boolean checkRemovedBid(Bid removedBid){
+		Bid bid = bidService.getBid(removedBid.getId());
 		Assert.assertNull(bid);
 		return true;
 	}

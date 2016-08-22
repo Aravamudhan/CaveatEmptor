@@ -1,8 +1,6 @@
 package com.amudhan.caveatemptor.test.dao;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -36,16 +34,12 @@ public class ItemDaoTest extends DaoTest {
 		/*A User is necessary for the creation of an item*/
 		User seller = entities.getSeller();
 		Item item = entities.getItem();
+		item.setSeller(seller);
 		Bid bid = entities.getBid();
 		bid.setItem(item);
-		bid.setBidder(entities.getBuyer());
-		Image image = entities.getImage();
-		image.setItem(item);
-		item.setSeller(seller);
-		Set<Image> images = new HashSet<Image>();
-		images.add(image);
-		item.setImages(images);
 		Set<Bid> bids = new HashSet<Bid>();
+		bids.add(bid);
+		bid.setBidder(entities.getBuyer());
 		item.setBids(bids);
 		seller.getSellingItems().add(item);
 		userDao.persist(seller);
@@ -84,6 +78,9 @@ public class ItemDaoTest extends DaoTest {
 		seller.getSellingItems().add(itemOne);
 		seller.getSellingItems().add(itemTwo);
 		userDao.persist(seller);
+		seller.getSellingItems().add(itemOne);
+		seller.getSellingItems().add(itemTwo);
+		userDao.persist(seller);
 		entityManager.flush();
 		Item persistedItemOne = itemDao.getItem(itemOne.getId());
 		Item persistedItemTwo = itemDao.getItem(itemTwo.getId());
@@ -98,26 +95,12 @@ public class ItemDaoTest extends DaoTest {
 		Item item = seller.getSellingItems().iterator().next();
 		userDao.persist(seller);
 		entityManager.flush();
-		List<Long> bidIds = new ArrayList<Long>();
-		for(Bid bid : item.getBids()){
-			bidIds.add(bid.getId());
-		}
-		List<Long> imageIds = new ArrayList<Long>();
-		for(Image image : item.getImages()){
-			imageIds.add(image.getId());
-		}
 		/*Since User#sellingItems has Cascade.ALL, any item that is present in the sellingItems
 		 * must to be cleaned explicitly before calling remove on that item. Otherwise the item will not be removed.*/
 		seller.getSellingItems().remove(item);
 		itemDao.remove(item);
 		entityManager.flush();
-	    validator.checkRemovedItem(item.getId());
-		for(long id : bidIds){
-			validator.checkRemovedBid(id);
-		}
-		for(long id : imageIds){
-			validator.checkRemovedImage(id);
-		}
+	    validator.checkRemovedItem(item);
 	}
 	/*TC8: Remove all items*/
 	/*Assign more than one item to a seller. Remove them all and validate*/
@@ -156,20 +139,8 @@ public class ItemDaoTest extends DaoTest {
 		itemDao.remove(itemOne);
 		itemDao.remove(itemTwo);
 		entityManager.flush();
-		validator.checkRemovedItem(itemOne.getId());
-		validator.checkRemovedItem(itemTwo.getId());
-		for(Bid removedBid : itemOne.getBids()){
-			validator.checkRemovedBid(removedBid.getId());
-		}
-		for(Bid removedBid : itemTwo.getBids()){
-			validator.checkRemovedBid(removedBid.getId());
-		}
-		for(Image image : itemOne.getImages()){
-			validator.checkRemovedImage(image.getId());
-		}
-		for(Image image : itemTwo.getImages()){
-			validator.checkRemovedImage(image.getId());
-		}
+		validator.checkRemovedItem(itemOne);
+		validator.checkRemovedItem(itemTwo);
 	}
 	/*TC9: Remove a particular item*/
 	@Test
@@ -206,20 +177,8 @@ public class ItemDaoTest extends DaoTest {
 		seller.getSellingItems().remove(itemOne);
 		itemDao.remove(itemOne);
 		entityManager.flush();
-		validator.checkRemovedItem(itemOne.getId());
+		validator.checkRemovedItem(itemOne);
 		validator.checkPersistedItem(itemTwo);
-		for(Bid removedBid : itemOne.getBids()){
-			validator.checkRemovedBid(removedBid.getId());
-		}
-		for(Bid persistedBid : itemTwo.getBids()){
-			validator.checkPersistedBid(persistedBid);
-		}
-		for(Image removedImage : itemOne.getImages()){
-			validator.checkRemovedImage(removedImage.getId());
-		}
-		for(Image persistedImage : itemTwo.getImages()){
-			validator.checkPersistedImage(persistedImage);
-		}
 	}
 	
 }
